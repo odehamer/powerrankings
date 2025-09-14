@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Power Rankings App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .submit-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .loading {
+            display: none;
+            margin-top: 15px;
+            color: #666;
+        }
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+            display: none;
+        }
+        .help-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 Fantasy Football Power Rankings 🏆</h1>
+        <p class="description">Create power rankings for your fantasy football league using head-to-head team comparisons</p>
+        
+        <form method="post" id="leagueForm">
+            <div class="form-group">
+                <label for="league_id">Sleeper League ID:</label>
+                <input type="text" 
+                       id="league_id" 
+                       name="league_id" 
+                       required 
+                       placeholder="Enter your Sleeper league ID">
+                <div class="help-text">
+                    You can find your league ID in your Sleeper app URL or league settings
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-button" id="submitBtn">
+                Get League Data
+            </button>
+            
+            <div class="loading" id="loadingDiv">
+                🔄 Loading league data...
+            </div>
+            
+            <div class="error" id="errorDiv">
+                ❌ Invalid league ID or league not found. Please check and try again.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('leagueForm');
+        const leagueIdInput = document.getElementById('league_id');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingDiv = document.getElementById('loadingDiv');
+        const errorDiv = document.getElementById('errorDiv');
+
+        // Add input validation
+        leagueIdInput.addEventListener('input', function() {
+            const value = this.value.trim();
+            errorDiv.style.display = 'none';
+            
+            // Basic validation - Sleeper league IDs are typically long numbers
+            if (value.length > 0) {
+                if (!/^\d+$/.test(value)) {
+                    showError('League ID should only contain numbers');
+                    return;
+                }
+                if (value.length < 10) {
+                    showError('League ID seems too short');
+                    return;
+                }
+            }
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Always prevent default form submission
+            
+            const leagueId = leagueIdInput.value.trim();
+            
+            // Validate league ID
+            if (!leagueId) {
+                showError('Please enter a league ID');
+                return;
+            }
+            
+            if (!/^\d+$/.test(leagueId)) {
+                showError('League ID should only contain numbers');
+                return;
+            }
+            
+            if (leagueId.length < 10) {
+                showError('League ID seems too short');
+                return;
+            }
+            
+            // Fetch league data from API
+            fetchLeagueData(leagueId);
+        });
+
+        async function fetchLeagueData(leagueId) {
+            showLoading();
+            
+            try {
+                // Fetch users and rosters data
+                const [usersResponse, rostersResponse] = await Promise.all([
+                    fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`),
+                    fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`)
+                ]);
+                
+                if (!usersResponse.ok || !rostersResponse.ok) {
+                    throw new Error('League not found or API error');
+                }
+                
+                const users = await usersResponse.json();
+                const rosters = await rostersResponse.json();
+                
+                if (!users || !rosters || users.length === 0) {
+                    throw new Error('No data found for this league');
+                }
+                
+                // Process the data (similar to your Django views)
+                const processedTeams = processLeagueData(users, rosters);
+                
+                // Show preview of teams
+                showLeaguePreview(processedTeams, leagueId);
+                
+            } catch (error) {
+                console.error('Error fetching league data:', error);
+                showError('Could not fetch league data. Please check the league ID and try again.');
+            }
+        }
+        
+        function processLeagueData(users, rosters) {
+            // Process users data
+            const processedUsers = users.map(user => ({
+                user_id: user.user_id,
+                avatar: user.avatar,
+                name: (user.metadata && user.metadata.team_name) ? user.metadata.team_name : user.display_name
+            }));
+            
+            // Merge with roster data
+            const teams = processedUsers.map(user => {
+                const roster = rosters.find(r => r.owner_id === user.user_id);
+                if (roster && roster.settings) {
+                    return {
+                        ...user,
+                        wins: roster.settings.wins || 0,
+                        losses: roster.settings.losses || 0,
+                        fpts: roster.settings.fpts || 0
+                    };
+                }
+                return {
+                    ...user,
+                    wins: 0,
+                    losses: 0,
+                    fpts: 0
+                };
+            });
+            
+            return teams;
+        }
+        
+        function showLeaguePreview(teams, leagueId) {
+            // Hide loading and error
+            loadingDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            
+            // Create preview section
+            const previewDiv = document.createElement('div');
+            previewDiv.id = 'leaguePreview';
+            previewDiv.style.marginTop = '30px';
+            previewDiv.style.padding = '20px';
+            previewDiv.style.backgroundColor = '#f8f9fa';
+            previewDiv.style.borderRadius = '8px';
+            previewDiv.style.border = '1px solid #dee2e6';
+            
+            previewDiv.innerHTML = `
+                <h3 style="color: #333; margin-bottom: 15px;">✅ League Found!</h3>
+                <p style="color: #666; margin-bottom: 20px;">Found ${teams.length} teams in this league:</p>
+                <div id="teamsList" style="text-align: left; max-height: 300px; overflow-y: auto;"></div>
+                <div style="margin-top: 20px;">
+                    <button type="button" id="startRankingBtn" class="submit-button">
+                        Start Power Rankings
+                    </button>
+                    <button type="button" id="editLeagueBtn" style="margin-left: 10px; background-color: #6c757d; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer;">
+                        Try Different League
+                    </button>
+                </div>
+            `;
+            
+            // Remove existing preview if any
+            const existingPreview = document.getElementById('leaguePreview');
+            if (existingPreview) {
+                existingPreview.remove();
+            }
+            
+            // Add preview to container
+            document.querySelector('.container').appendChild(previewDiv);
+            
+            // Populate teams list
+            const teamsList = document.getElementById('teamsList');
+            teams.forEach((team, index) => {
+                const teamDiv = document.createElement('div');
+                teamDiv.style.display = 'flex';
+                teamDiv.style.alignItems = 'center';
+                teamDiv.style.padding = '8px 12px';
+                teamDiv.style.margin = '5px 0';
+                teamDiv.style.backgroundColor = 'white';
+                teamDiv.style.borderRadius = '6px';
+                teamDiv.style.border = '1px solid #dee2e6';
+                
+                teamDiv.innerHTML = `
+                    <img src="${team.avatar ? `https://sleepercdn.com/avatars/${team.avatar}` : 'https://sleepercdn.com/avatars/default_avatar.png'}" 
+                         style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px;">
+                    <div style="flex-grow: 1;">
+                        <div style="font-weight: bold; color: #333;">${team.name}</div>
+                        <div style="font-size: 14px; color: #666;">${team.wins}-${team.losses} (${team.fpts} pts)</div>
+                    </div>
+                `;
+                
+                teamsList.appendChild(teamDiv);
+            });
+            
+            // Add event listeners for buttons
+            document.getElementById('startRankingBtn').addEventListener('click', function() {
+                // Pass the team data directly to the ranking page
+                startRankingsWithData(teams, leagueId);
+            });
+            
+            document.getElementById('editLeagueBtn').addEventListener('click', function() {
+                // Remove preview and reset form
+                previewDiv.remove();
+                leagueIdInput.value = '';
+                leagueIdInput.focus();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Get League Data';
+            });
+        }
+        
+        function startRankingsWithData(teams, leagueId) {
+            // Store the team data in sessionStorage
+            sessionStorage.setItem('leagueData', JSON.stringify({
+                teams: teams,
+                leagueId: leagueId
+            }));
+            
+            // Navigate to the rankings page
+            window.location.href = 'league_detail.html';
+        }
+
+        function showError(message) {
+            errorDiv.textContent = `❌ ${message}`;
+            errorDiv.style.display = 'block';
+            loadingDiv.style.display = 'none';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Get League Data';
+        }
+
+        function showLoading() {
+            loadingDiv.style.display = 'block';
+            errorDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Loading...';
+        }
+
+        // Add some example league IDs for testing (optional)
+        function fillExampleId() {
+            leagueIdInput.value = '1254922727656001536';
+        }
+
+        // Add keyboard shortcuts
+        leagueIdInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                form.dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+        });
+
+        // Auto-focus on the input field
+        window.addEventListener('load', function() {
+            leagueIdInput.focus();
+        });
+
+        // Add sample data button for testing
+        const sampleButton = document.createElement('button');
+        sampleButton.type = 'button';
+        sampleButton.textContent = 'Use Sample League';
+        sampleButton.style.marginLeft = '10px';
+        sampleButton.style.backgroundColor = '#28a745';
+        sampleButton.style.color = 'white';
+        sampleButton.style.border = 'none';
+        sampleButton.style.padding = '12px 20px';
+        sampleButton.style.borderRadius = '6px';
+        sampleButton.style.cursor = 'pointer';
+        sampleButton.addEventListener('click', fillExampleId);
+        
+        submitBtn.parentNode.appendChild(sampleButton);
+    </script>
+</body>
+</html>
