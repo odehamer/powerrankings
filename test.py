@@ -21,6 +21,9 @@ merged_df['losses'] = merged_df['settings'].apply(lambda x: x['losses'] if x and
 merged_df['fpts'] = merged_df['settings'].apply(lambda x: x['fpts'] if x and 'fpts' in x else 0)
 merged_df.drop(columns=['settings'], inplace=True)
 
+# print(merged_df)
+print(merged_df.columns)  
+
 list = merged_df.to_dict(orient='records')
 print(list[1].keys())
 

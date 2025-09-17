@@ -91,405 +91,465 @@
     </div>
     
     <script>
-        // Get league data from sessionStorage
-        const leagueData = JSON.parse(sessionStorage.getItem('leagueData'));
-        
-        if (!leagueData || !leagueData.teams) {
-            // Redirect back to home if no data found
-            alert('No league data found. Redirecting to home page.');
-            window.location.href = 'base.html';
-        }
-        
-        // Update page title
-        document.getElementById('league-title').textContent = `League ID: ${leagueData.leagueId} - Power Rankings`;
-        
-        let originalTeamList = leagueData.teams;
-        let teamList = [...originalTeamList];
-        let comparisonResults = {}; // Store comparison results: "team1_id_team2_id" -> winner_index
-        let mergeSortStack = []; // Stack to track merge sort operations
-        let currentComparison = null; // Current teams being compared
-        
-        console.log("Initial team list:", teamList);
-        
-        function initializeMergeSort() {
-            comparisonResults = {};
-            mergeSortStack = [];
-            currentComparison = null;
-            teamList = [...originalTeamList];
+        document.addEventListener("DOMContentLoaded", async function() {
+            // Get league data from sessionStorage
+            const leagueData = JSON.parse(sessionStorage.getItem('leagueData'));
+
+            console.log(leagueData.players)
+
+            async function getPlayerData() {
+                return fetch('./players.json')
+                    .then(response => response.json())
+                    .catch(error => {
+                        console.error('Error loading player data:', error);
+                        return {};
+                    });
+            }
+
+            const playerData = await getPlayerData();
+            console.log(playerData);
             
-            // Initialize the merge sort stack properly
-            initializeMergeSortStack(teamList, 0);
-            processNextComparison();
-        }
-        
-        function initializeMergeSortStack(list, level) {
-            if (list.length <= 1) {
-                return;
+            // Update page title
+            document.getElementById('league-title').textContent = `League ID: ${leagueData.leagueId} - Power Rankings`;
+            
+            let originalTeamList = leagueData.teams;
+            let teamList = [...originalTeamList];
+            let comparisonResults = {}; // Store comparison results: "team1_id_team2_id" -> winner_index
+            let mergeSortStack = []; // Stack to track merge sort operations
+            let currentComparison = null; // Current teams being compared
+            
+            console.log("Initial team list:", teamList);
+            
+            function initializeMergeSort() {
+                comparisonResults = {};
+                mergeSortStack = [];
+                currentComparison = null;
+                teamList = [...originalTeamList];
+                
+                // Initialize the merge sort stack properly
+                initializeMergeSortStack(teamList, 0);
+                processNextComparison();
             }
             
-            const mid = Math.floor(list.length / 2);
-            const left = list.slice(0, mid);
-            const right = list.slice(mid);
-            
-            // Add this merge operation to the stack
-            mergeSortStack.push({
-                list: list,
-                left: left,
-                right: right,
-                level: level,
-                leftSorted: left.length <= 1,
-                rightSorted: right.length <= 1,
-                merged: false,
-                leftMergeIndex: 0,
-                rightMergeIndex: 0
-            });
-            
-            // Recursively initialize smaller operations
-            if (left.length > 1) {
-                initializeMergeSortStack(left, level + 1);
+            function initializeMergeSortStack(list, level) {
+                if (list.length <= 1) {
+                    return;
+                }
+                
+                const mid = Math.floor(list.length / 2);
+                const left = list.slice(0, mid);
+                const right = list.slice(mid);
+                
+                // Add this merge operation to the stack
+                mergeSortStack.push({
+                    list: list,
+                    left: left,
+                    right: right,
+                    level: level,
+                    leftSorted: left.length <= 1,
+                    rightSorted: right.length <= 1,
+                    merged: false,
+                    leftMergeIndex: 0,
+                    rightMergeIndex: 0
+                });
+                
+                // Recursively initialize smaller operations
+                if (left.length > 1) {
+                    initializeMergeSortStack(left, level + 1);
+                }
+                if (right.length > 1) {
+                    initializeMergeSortStack(right, level + 1);
+                }
             }
-            if (right.length > 1) {
-                initializeMergeSortStack(right, level + 1);
-            }
-        }
-        
-        function processNextComparison() {
-            // Process from deepest level to shallowest
-            for (let i = mergeSortStack.length - 1; i >= 0; i--) {
-                const operation = mergeSortStack[i];
-                
-                // Skip if already merged
-                if (operation.merged) {
-                    continue;
-                }
-                
-                // Check if sub-operations are complete
-                if (!operation.leftSorted && operation.left.length > 1) {
-                    // Find if left sub-operation is complete
-                    const leftOp = findOperationForList(operation.left);
-                    if (leftOp && leftOp.merged) {
-                        operation.leftSorted = true;
-                    } else {
-                        continue; // Wait for left to complete
-                    }
-                }
-                
-                if (!operation.rightSorted && operation.right.length > 1) {
-                    // Find if right sub-operation is complete
-                    const rightOp = findOperationForList(operation.right);
-                    if (rightOp && rightOp.merged) {
-                        operation.rightSorted = true;
-                    } else {
-                        continue; // Wait for right to complete
-                    }
-                }
-                
-                // Ready to merge
-                if (operation.leftSorted && operation.rightSorted && !operation.merged) {
-                    const comparison = getNextMergeComparison(operation);
-                    if (comparison) {
-                        currentComparison = {
-                            team1: comparison.team1,
-                            team2: comparison.team2,
-                            operation: operation
-                        };
-                        showComparison();
-                        return;
-                    } else {
-                        // Merge is complete
-                        performMerge(operation);
-                        operation.merged = true;
+            
+            function processNextComparison() {
+                // Process from deepest level to shallowest
+                for (let i = mergeSortStack.length - 1; i >= 0; i--) {
+                    const operation = mergeSortStack[i];
+                    
+                    // Skip if already merged
+                    if (operation.merged) {
                         continue;
                     }
+                    
+                    // Check if sub-operations are complete
+                    if (!operation.leftSorted && operation.left.length > 1) {
+                        // Find if left sub-operation is complete
+                        const leftOp = findOperationForList(operation.left);
+                        if (leftOp && leftOp.merged) {
+                            operation.leftSorted = true;
+                        } else {
+                            continue; // Wait for left to complete
+                        }
+                    }
+                    
+                    if (!operation.rightSorted && operation.right.length > 1) {
+                        // Find if right sub-operation is complete
+                        const rightOp = findOperationForList(operation.right);
+                        if (rightOp && rightOp.merged) {
+                            operation.rightSorted = true;
+                        } else {
+                            continue; // Wait for right to complete
+                        }
+                    }
+                    
+                    // Ready to merge
+                    if (operation.leftSorted && operation.rightSorted && !operation.merged) {
+                        const comparison = getNextMergeComparison(operation);
+                        if (comparison) {
+                            currentComparison = {
+                                team1: comparison.team1,
+                                team2: comparison.team2,
+                                operation: operation
+                            };
+                            showComparison();
+                            return;
+                        } else {
+                            // Merge is complete
+                            performMerge(operation);
+                            operation.merged = true;
+                            continue;
+                        }
+                    }
+                }
+                
+                // Check if sorting is complete
+                if (mergeSortStack.length > 0 && mergeSortStack[0].merged) {
+                    showFinalRankings();
                 }
             }
             
-            // Check if sorting is complete
-            if (mergeSortStack.length > 0 && mergeSortStack[0].merged) {
-                showFinalRankings();
-            }
-        }
-        
-        function findOperationForList(list) {
-            return mergeSortStack.find(op => 
-                op.list.length === list.length && 
-                op.list.every((team, idx) => team.user_id === list[idx].user_id)
-            );
-        }
-        
-        function getNextMergeComparison(operation) {
-            const i = operation.leftMergeIndex;
-            const j = operation.rightMergeIndex;
-            
-            if (i >= operation.left.length || j >= operation.right.length) {
-                return null; // Merge is complete
+            function findOperationForList(list) {
+                return mergeSortStack.find(op => 
+                    op.list.length === list.length && 
+                    op.list.every((team, idx) => team.user_id === list[idx].user_id)
+                );
             }
             
-            const team1 = operation.left[i];
-            const team2 = operation.right[j];
-            const key = `${team1.user_id}_${team2.user_id}`;
-            const reverseKey = `${team2.user_id}_${team1.user_id}`;
-            
-            // Check if we already have this comparison
-            if (comparisonResults[key] !== undefined) {
-                // Use existing result and advance
-                const winner = comparisonResults[key];
-                if (winner === 1) {
-                    operation.leftMergeIndex++;
-                } else {
-                    operation.rightMergeIndex++;
+            function getNextMergeComparison(operation) {
+                const i = operation.leftMergeIndex;
+                const j = operation.rightMergeIndex;
+                
+                if (i >= operation.left.length || j >= operation.right.length) {
+                    return null; // Merge is complete
                 }
-                return getNextMergeComparison(operation); // Recursive call with updated indices
-            } else if (comparisonResults[reverseKey] !== undefined) {
-                // Use reverse result
-                const winner = comparisonResults[reverseKey] === 1 ? 2 : 1;
-                if (winner === 1) {
-                    operation.leftMergeIndex++;
-                } else {
-                    operation.rightMergeIndex++;
-                }
-                return getNextMergeComparison(operation); // Recursive call with updated indices
-            }
-            
-            // Need user input
-            return {
-                team1: team1,
-                team2: team2
-            };
-        }
-        
-        function showComparison() {
-            if (!currentComparison) {
-                processNextComparison();
-                return;
-            }
-            
-            const firstTwoTeamsDiv = document.getElementById('first-two-teams');
-            const statusDiv = document.getElementById('ranking-status');
-            
-            // Clear previous content
-            const existingContainer = document.querySelector('.teams-container');
-            if (existingContainer) {
-                existingContainer.remove();
-            }
-            
-            // Update status
-            const totalComparisons = Object.keys(comparisonResults).length;
-            const estimatedTotal = Math.ceil(teamList.length * Math.log2(teamList.length));
-            statusDiv.innerHTML = `<p>Comparisons made: ${totalComparisons} / ~${estimatedTotal} | Teams: ${teamList.length}</p>`;
-            
-            // Create a container for the teams
-            const teamsContainer = document.createElement('div');
-            teamsContainer.className = 'teams-container';
-            teamsContainer.style.textAlign = 'center';
-            
-            [currentComparison.team1, currentComparison.team2].forEach((team, i) => {
-                const teamCard = document.createElement('div');
-                teamCard.className = 'team-card';
                 
-                const avatar = document.createElement('img');
-                avatar.className = 'team-avatar';
-                avatar.src = team.avatar ? `https://sleepercdn.com/avatars/${team.avatar}` : 'https://sleepercdn.com/avatars/default_avatar.png';
-                avatar.alt = `${team.name} avatar`;
-                
-                const name = document.createElement('div');
-                name.className = 'team-name';
-                name.textContent = team.name;
-                
-                const stats = document.createElement('div');
-                stats.style.fontSize = '14px';
-                stats.style.color = '#666';
-                stats.style.marginBottom = '10px';
-                stats.textContent = `${team.wins}-${team.losses} (${team.fpts} pts)`;
-                
-                const chooseButton = document.createElement('button');
-                chooseButton.className = 'choose-button';
-                chooseButton.textContent = `Choose ${team.name}`;
-                chooseButton.onclick = function() {
-                    chooseTeam(i + 1);
-                };
-                
-                teamCard.appendChild(avatar);
-                teamCard.appendChild(name);
-                teamCard.appendChild(stats);
-                teamCard.appendChild(chooseButton);
-                teamsContainer.appendChild(teamCard);
-                
-                // Add "VS" text between the two teams
-                if (i === 0) {
-                    const vsText = document.createElement('span');
-                    vsText.className = 'vs-text';
-                    vsText.textContent = 'VS';
-                    teamsContainer.appendChild(vsText);
-                }
-            });
-            
-            firstTwoTeamsDiv.appendChild(teamsContainer);
-        }
-        
-        function chooseTeam(winner) {
-            if (!currentComparison) return;
-            
-            const team1 = currentComparison.team1;
-            const team2 = currentComparison.team2;
-            const key = `${team1.user_id}_${team2.user_id}`;
-            
-            // Store the comparison result
-            comparisonResults[key] = winner;
-            
-            console.log(`Comparison: ${winner === 1 ? team1.name : team2.name} beats ${winner === 1 ? team2.name : team1.name}`);
-            
-            // Update merge operation indices
-            const operation = currentComparison.operation;
-            if (winner === 1) {
-                operation.leftMergeIndex++;
-            } else {
-                operation.rightMergeIndex++;
-            }
-            
-            currentComparison = null;
-            
-            // Continue with next comparison
-            setTimeout(() => {
-                processNextComparison();
-            }, 300);
-        }
-        
-        function performMerge(operation) {
-            // Only perform merge if all comparisons for this operation are complete
-            if (operation.leftMergeIndex < operation.left.length && operation.rightMergeIndex < operation.right.length) {
-                return; // Still need more comparisons
-            }
-            
-            // Perform the merge operation using comparison results
-            const left = operation.left;
-            const right = operation.right;
-            const result = [];
-            
-            let i = 0, j = 0;
-            
-            while (i < left.length && j < right.length) {
-                const team1 = left[i];
-                const team2 = right[j];
+                const team1 = operation.left[i];
+                const team2 = operation.right[j];
                 const key = `${team1.user_id}_${team2.user_id}`;
                 const reverseKey = `${team2.user_id}_${team1.user_id}`;
                 
-                let winner = null;
+                // Check if we already have this comparison
                 if (comparisonResults[key] !== undefined) {
-                    winner = comparisonResults[key];
+                    // Use existing result and advance
+                    const winner = comparisonResults[key];
+                    if (winner === 1) {
+                        operation.leftMergeIndex++;
+                    } else {
+                        operation.rightMergeIndex++;
+                    }
+                    return getNextMergeComparison(operation); // Recursive call with updated indices
                 } else if (comparisonResults[reverseKey] !== undefined) {
-                    winner = comparisonResults[reverseKey] === 1 ? 2 : 1;
+                    // Use reverse result
+                    const winner = comparisonResults[reverseKey] === 1 ? 2 : 1;
+                    if (winner === 1) {
+                        operation.leftMergeIndex++;
+                    } else {
+                        operation.rightMergeIndex++;
+                    }
+                    return getNextMergeComparison(operation); // Recursive call with updated indices
                 }
                 
+                // Need user input
+                return {
+                    team1: team1,
+                    team2: team2
+                };
+            }
+            
+            function showComparison() {
+                if (!currentComparison) {
+                    processNextComparison();
+                    return;
+                }
+                
+                const firstTwoTeamsDiv = document.getElementById('first-two-teams');
+                const statusDiv = document.getElementById('ranking-status');
+                
+                // Clear previous content
+                const existingContainer = document.querySelector('.teams-container');
+                if (existingContainer) {
+                    existingContainer.remove();
+                }
+                
+                // Update status
+                const totalComparisons = Object.keys(comparisonResults).length;
+                const estimatedTotal = Math.ceil(teamList.length * Math.log2(teamList.length));
+                statusDiv.innerHTML = `<p>Comparisons made: ${totalComparisons} / ~${estimatedTotal} | Teams: ${teamList.length}</p>`;
+                
+                // Create a container for the teams
+                const teamsContainer = document.createElement('div');
+                teamsContainer.className = 'teams-container';
+                teamsContainer.style.textAlign = 'center';
+                
+                [currentComparison.team1, currentComparison.team2].forEach((team, i) => {
+                    const teamCard = document.createElement('div');
+                    teamCard.className = 'team-card';
+                    
+                    const avatar = document.createElement('img');
+                    avatar.className = 'team-avatar';
+                    avatar.src = team.avatar ? `https://sleepercdn.com/avatars/${team.avatar}` : 'https://sleepercdn.com/avatars/default_avatar.png';
+                    avatar.alt = `${team.name} avatar`;
+                    
+                    const name = document.createElement('div');
+                    name.className = 'team-name';
+                    name.textContent = team.name;
+                    
+                    const stats = document.createElement('div');
+                    stats.style.fontSize = '14px';
+                    stats.style.color = '#666';
+                    stats.style.marginBottom = '10px';
+                    stats.textContent = `${team.wins}-${team.losses} (${team.fpts} pts)`;
+
+                    const qbs = document.createElement('div');
+                    qbs.style.fontSize = '12px';
+                    qbs.style.color = '#ef74a1';
+                    qbs.style.marginBottom = '10px';
+                    qbs.textContent = "QBs";
+
+                    const rbs = document.createElement('div');
+                    rbs.style.fontSize = '12px';
+                    rbs.style.color = '#8ff2ca';
+                    rbs.style.marginBottom = '10px';
+                    rbs.textContent = "RBs";
+
+                    const wrs = document.createElement('div');
+                    wrs.style.fontSize = '12px';
+                    wrs.style.color = '#59c9f8';
+                    wrs.style.marginBottom = '10px';
+                    wrs.textContent = "WRs";
+
+                    const tes = document.createElement('div');
+                    tes.style.fontSize = '12px';
+                    tes.style.color = '#feae58';
+                    tes.style.marginBottom = '10px';
+                    tes.textContent = "TEs";
+
+                    const otherpostions = document.createElement('div');
+                    otherpostions.style.fontSize = '12px';
+                    otherpostions.style.color = '#666';
+                    otherpostions.style.marginBottom = '10px';
+
+                    team.players.forEach((player, i) => {
+                        curr_player = playerData[player]
+                        if (curr_player.position === "QB") {
+                            qbs.textContent += (qbs.textContent.length > 0 && i > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                        } else if (curr_player.position === "RB") {
+                            rbs.textContent += (rbs.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                        } else if (curr_player.position === "WR") {
+                            wrs.textContent += (wrs.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                        } else if (curr_player.position === "TE") {
+                            tes.textContent += (tes.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                        } else {
+                            otherpostions.textContent += (otherpostions.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                        }
+                    });
+                    
+                    
+                    const chooseButton = document.createElement('button');
+                    chooseButton.className = 'choose-button';
+                    chooseButton.textContent = `Choose ${team.name}`;
+                    chooseButton.onclick = function() {
+                        chooseTeam(i + 1);
+                    };
+                    
+                    teamCard.appendChild(avatar);
+                    teamCard.appendChild(name);
+                    teamCard.appendChild(stats);
+                    teamCard.appendChild(qbs);
+                    teamCard.appendChild(rbs);
+                    teamCard.appendChild(wrs);
+                    teamCard.appendChild(tes);
+                    teamCard.appendChild(otherpostions);
+                    teamCard.appendChild(chooseButton);
+                    teamsContainer.appendChild(teamCard);
+                    
+                    // Add "VS" text between the two teams
+                    if (i === 0) {
+                        const vsText = document.createElement('span');
+                        vsText.className = 'vs-text';
+                        vsText.textContent = 'VS';
+                        teamsContainer.appendChild(vsText);
+                    }
+                });
+                
+                firstTwoTeamsDiv.appendChild(teamsContainer);
+            }
+            
+            function chooseTeam(winner) {
+                if (!currentComparison) return;
+                
+                const team1 = currentComparison.team1;
+                const team2 = currentComparison.team2;
+                const key = `${team1.user_id}_${team2.user_id}`;
+                
+                // Store the comparison result
+                comparisonResults[key] = winner;
+                
+                console.log(`Comparison: ${winner === 1 ? team1.name : team2.name} beats ${winner === 1 ? team2.name : team1.name}`);
+                
+                // Update merge operation indices
+                const operation = currentComparison.operation;
                 if (winner === 1) {
-                    result.push(team1);
-                    i++;
-                } else if (winner === 2) {
-                    result.push(team2);
-                    j++;
+                    operation.leftMergeIndex++;
                 } else {
-                    // Fallback - this shouldn't happen
-                    result.push(team1);
+                    operation.rightMergeIndex++;
+                }
+                
+                currentComparison = null;
+                
+                // Continue with next comparison
+                setTimeout(() => {
+                    processNextComparison();
+                }, 300);
+            }
+            
+            function performMerge(operation) {
+                // Only perform merge if all comparisons for this operation are complete
+                if (operation.leftMergeIndex < operation.left.length && operation.rightMergeIndex < operation.right.length) {
+                    return; // Still need more comparisons
+                }
+                
+                // Perform the merge operation using comparison results
+                const left = operation.left;
+                const right = operation.right;
+                const result = [];
+                
+                let i = 0, j = 0;
+                
+                while (i < left.length && j < right.length) {
+                    const team1 = left[i];
+                    const team2 = right[j];
+                    const key = `${team1.user_id}_${team2.user_id}`;
+                    const reverseKey = `${team2.user_id}_${team1.user_id}`;
+                    
+                    let winner = null;
+                    if (comparisonResults[key] !== undefined) {
+                        winner = comparisonResults[key];
+                    } else if (comparisonResults[reverseKey] !== undefined) {
+                        winner = comparisonResults[reverseKey] === 1 ? 2 : 1;
+                    }
+                    
+                    if (winner === 1) {
+                        result.push(team1);
+                        i++;
+                    } else if (winner === 2) {
+                        result.push(team2);
+                        j++;
+                    } else {
+                        // Fallback - this shouldn't happen
+                        result.push(team1);
+                        i++;
+                    }
+                }
+                
+                // Add remaining elements
+                while (i < left.length) {
+                    result.push(left[i]);
                     i++;
                 }
-            }
-            
-            // Add remaining elements
-            while (i < left.length) {
-                result.push(left[i]);
-                i++;
-            }
-            while (j < right.length) {
-                result.push(right[j]);
-                j++;
-            }
-            
-            // Update the original list with sorted result
-            for (let k = 0; k < result.length; k++) {
-                operation.list[k] = result[k];
-            }
-            
-            operation.merged = true;
-        }
-        
-        function showFinalRankings() {
-            const finalRankings = teamList;
-            
-            const firstTwoTeamsDiv = document.getElementById('first-two-teams');
-            firstTwoTeamsDiv.innerHTML = `
-                <h2>🏆 Final Power Rankings! 🏆</h2>
-                <div id="final-rankings-list"></div>
-                <button class="choose-button" onclick="restartRanking()" style="margin-top: 20px;">
-                    🔄 Rank Again
-                </button>
-                <button class="choose-button" onclick="goHome()" style="margin-top: 20px; background-color: #6c757d;">
-                    🏠 Back to Home
-                </button>
-            `;
-            
-            const rankingsList = document.getElementById('final-rankings-list');
-            
-            finalRankings.forEach((team, index) => {
-                const rankItem = document.createElement('div');
-                rankItem.style.display = 'flex';
-                rankItem.style.alignItems = 'center';
-                rankItem.style.padding = '10px';
-                rankItem.style.margin = '10px auto';
-                rankItem.style.maxWidth = '400px';
-                rankItem.style.backgroundColor = 'white';
-                rankItem.style.borderRadius = '10px';
-                rankItem.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                while (j < right.length) {
+                    result.push(right[j]);
+                    j++;
+                }
                 
-                const rank = document.createElement('div');
-                rank.style.fontSize = '24px';
-                rank.style.fontWeight = 'bold';
-                rank.style.color = '#007bff';
-                rank.style.width = '40px';
-                rank.textContent = `${index + 1}.`;
+                // Update the original list with sorted result
+                for (let k = 0; k < result.length; k++) {
+                    operation.list[k] = result[k];
+                }
                 
-                const avatar = document.createElement('img');
-                avatar.src = team.avatar ? `https://sleepercdn.com/avatars/${team.avatar}` : 'https://sleepercdn.com/avatars/default_avatar.png';
-                avatar.style.width = '50px';
-                avatar.style.height = '50px';
-                avatar.style.borderRadius = '50%';
-                avatar.style.margin = '0 15px';
+                operation.merged = true;
+            }
+            
+            function showFinalRankings() {
+                const finalRankings = teamList;
                 
-                const info = document.createElement('div');
-                info.style.flexGrow = '1';
-                info.innerHTML = `
-                    <div style="font-weight: bold; font-size: 18px;">${team.name} ${index === 0 ? '👑' : ''}</div>
-                    <div style="color: #666; font-size: 14px;">${team.wins}-${team.losses} (${team.fpts} pts)</div>
+                const firstTwoTeamsDiv = document.getElementById('first-two-teams');
+                firstTwoTeamsDiv.innerHTML = `
+                    <h2>🏆 Final Power Rankings! 🏆</h2>
+                    <div id="final-rankings-list"></div>
+                    <button class="choose-button" onclick="restartRanking()" style="margin-top: 20px;">
+                        🔄 Rank Again
+                    </button>
+                    <button class="choose-button" onclick="goHome()" style="margin-top: 20px; background-color: #6c757d;">
+                        🏠 Back to Home
+                    </button>
                 `;
                 
-                rankItem.appendChild(rank);
-                rankItem.appendChild(avatar);
-                rankItem.appendChild(info);
-                rankingsList.appendChild(rankItem);
-            });
-        }
-        
-        function restartRanking() {
-            const firstTwoTeamsDiv = document.getElementById('first-two-teams');
-            firstTwoTeamsDiv.innerHTML = `
-                <h2>Choose Between These Two Teams:</h2>
-                <div id="ranking-status"></div>
-            `;
+                const rankingsList = document.getElementById('final-rankings-list');
+                
+                finalRankings.forEach((team, index) => {
+                    const rankItem = document.createElement('div');
+                    rankItem.style.display = 'flex';
+                    rankItem.style.alignItems = 'center';
+                    rankItem.style.padding = '10px';
+                    rankItem.style.margin = '10px auto';
+                    rankItem.style.maxWidth = '400px';
+                    rankItem.style.backgroundColor = 'white';
+                    rankItem.style.borderRadius = '10px';
+                    rankItem.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                    
+                    const rank = document.createElement('div');
+                    rank.style.fontSize = '24px';
+                    rank.style.fontWeight = 'bold';
+                    rank.style.color = '#007bff';
+                    rank.style.width = '40px';
+                    rank.textContent = `${index + 1}.`;
+                    
+                    const avatar = document.createElement('img');
+                    avatar.src = team.avatar ? `https://sleepercdn.com/avatars/${team.avatar}` : 'https://sleepercdn.com/avatars/default_avatar.png';
+                    avatar.style.width = '50px';
+                    avatar.style.height = '50px';
+                    avatar.style.borderRadius = '50%';
+                    avatar.style.margin = '0 15px';
+                    
+                    const info = document.createElement('div');
+                    info.style.flexGrow = '1';
+                    info.innerHTML = `
+                        <div style="font-weight: bold; font-size: 18px;">${team.name} ${index === 0 ? '👑' : ''}</div>
+                        <div style="color: #666; font-size: 14px;">${team.wins}-${team.losses} (${team.fpts} pts)</div>
+                    `;
+                    
+                    rankItem.appendChild(rank);
+                    rankItem.appendChild(avatar);
+                    rankItem.appendChild(info);
+                    rankingsList.appendChild(rankItem);
+                });
+            }
             
-            initializeMergeSort();
-        }
-        
-        function goHome() {
-            // Clear the session data and go back to home
-            sessionStorage.removeItem('leagueData');
-            window.location.href = 'index.html';
-        }
-        
-        // Start the merge sort process
-        if (teamList && teamList.length >= 2) {
-            initializeMergeSort();
-        } else {
-            document.getElementById('first-two-teams').innerHTML += '<p>Not enough teams found in the league.</p>';
-        }
+            function restartRanking() {
+                const firstTwoTeamsDiv = document.getElementById('first-two-teams');
+                firstTwoTeamsDiv.innerHTML = `
+                    <h2>Choose Between These Two Teams:</h2>
+                    <div id="ranking-status"></div>
+                `;
+                
+                initializeMergeSort();
+            }
+            
+            function goHome() {
+                // Clear the session data and go back to home
+                sessionStorage.removeItem('leagueData');
+                window.location.href = 'index.html';
+            }
+            
+            // Start the merge sort process
+            if (teamList && teamList.length >= 2) {
+                initializeMergeSort();
+            } else {
+                document.getElementById('first-two-teams').innerHTML += '<p>Not enough teams found in the league.</p>';
+            }
+        });
     </script>
 </body>
 </html>

@@ -211,16 +211,18 @@
                 if (roster && roster.settings) {
                     return {
                         ...user,
-                        wins: roster.settings.wins || 0,
-                        losses: roster.settings.losses || 0,
-                        fpts: roster.settings.fpts || 0
+                        wins: roster.settings ? roster.settings.wins || 0 : 0,
+                        losses: roster.settings ? roster.settings.losses || 0 : 0,
+                        fpts: roster.settings ? roster.settings.fpts || 0 : 0,
+                        players: roster.players || []
                     };
                 }
                 return {
                     ...user,
                     wins: 0,
                     losses: 0,
-                    fpts: 0
+                    fpts: 0,
+                    players: []
                 };
             });
             
@@ -228,6 +230,17 @@
         }
         
         function showLeaguePreview(teams, leagueId) {
+            // Log all players from all teams
+            console.log('All teams:', teams);
+            teams.forEach((team, index) => {
+                console.log(`Team ${index + 1} (${team.name}):`, team.players);
+            });
+            
+            // Get all unique players across all teams
+            const allPlayers = teams.flatMap(team => team.players || []);
+            console.log('All player IDs:', allPlayers);
+            console.log('Total players across all teams:', allPlayers.length);
+            
             // Hide loading and error
             loadingDiv.style.display = 'none';
             errorDiv.style.display = 'none';
