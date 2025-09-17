@@ -112,7 +112,16 @@
             // Update page title
             document.getElementById('league-title').textContent = `League ID: ${leagueData.leagueId} - Power Rankings`;
             
-            let originalTeamList = leagueData.teams;
+            // Sort teams by wins (descending), then by losses (ascending), then by points (descending)
+            let originalTeamList = leagueData.teams.sort((a, b) => {
+                if (b.wins !== a.wins) {
+                    return b.wins - a.wins; // Higher wins first
+                }
+                if (a.losses !== b.losses) {
+                    return a.losses - b.losses; // Lower losses first
+                }
+                return b.fpts - a.fpts; // Higher points first
+            });
             let teamList = [...originalTeamList];
             let comparisonResults = {}; // Store comparison results: "team1_id_team2_id" -> winner_index
             let mergeSortStack = []; // Stack to track merge sort operations
