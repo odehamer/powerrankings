@@ -4,6 +4,7 @@
     <title>Power Rankings - League Details</title>
     <style>
         body {
+            text-align: center;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
@@ -41,6 +42,8 @@
             display: inline-block;
             margin: 0px;
             padding: 10px;
+            width: 500px;
+            height: 350px;
             border: 2px solid #666;
             border-radius: 10px;
             text-align: center;
@@ -351,21 +354,25 @@
                     qbs.style.fontSize = '12px';
                     qbs.style.color = '#ef74a1';
                     qbs.style.marginBottom = '10px';
+                    let qbs_list = [];
 
                     const rbs = document.createElement('div');
                     rbs.style.fontSize = '12px';
                     rbs.style.color = '#8ff2ca';
                     rbs.style.marginBottom = '10px';
+                    let rbs_list = [];
 
                     const wrs = document.createElement('div');
                     wrs.style.fontSize = '12px';
                     wrs.style.color = '#59c9f8';
                     wrs.style.marginBottom = '10px';
+                    let wrs_list = [];
 
                     const tes = document.createElement('div');
                     tes.style.fontSize = '12px';
                     tes.style.color = '#feae58';
                     tes.style.marginBottom = '10px';
+                    let tes_list = [];
 
                     const otherpostions = document.createElement('div');
                     otherpostions.style.fontSize = '12px';
@@ -375,19 +382,39 @@
                     team.players.forEach((player, i) => {
                         curr_player = playerData[player]
                         if (curr_player.position === "QB") {
-                            qbs.textContent += (qbs.textContent.length > 0 && i > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                            qbs_list.push(curr_player);
+                            //qbs.textContent += (qbs.textContent.length > 0 && i > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
                         } else if (curr_player.position === "RB") {
-                            rbs.textContent += (rbs.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                            rbs_list.push(curr_player);
+                            // rbs.textContent += (rbs.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
                         } else if (curr_player.position === "WR") {
-                            wrs.textContent += (wrs.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                            wrs_list.push(curr_player);
+                            // wrs.textContent += (wrs.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
                         } else if (curr_player.position === "TE") {
-                            tes.textContent += (tes.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
+                            tes_list.push(curr_player);
+                            // tes.textContent += (tes.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
                         } else {
                             otherpostions.textContent += (otherpostions.textContent.length > 0 ? ', ' : '') + (curr_player ? curr_player.full_name : player);
                         }
                     });
                     
-                    
+                    qbs_list.sort((a, b) => a.search_rank - b.search_rank);
+                    rbs_list.sort((a, b) => a.search_rank - b.search_rank);
+                    wrs_list.sort((a, b) => a.search_rank - b.search_rank);
+                    tes_list.sort((a, b) => a.search_rank - b.search_rank);
+                    for (let i = 0; i < qbs_list.length; i++) {
+                        qbs.textContent += (i > 0 ? ', ' : '') + (qbs_list[i] ? qbs_list[i].full_name : '');
+                    }
+                    for (let i = 0; i < rbs_list.length; i++) {
+                        rbs.textContent += (i > 0 ? ', ' : '') + (rbs_list[i] ? rbs_list[i].full_name : '');
+                    }
+                    for (let i = 0; i < wrs_list.length; i++) {
+                        wrs.textContent += (i > 0 ? ', ' : '') + (wrs_list[i] ? wrs_list[i].full_name : '');
+                    }
+                    for (let i = 0; i < tes_list.length; i++) {
+                        tes.textContent += (i > 0 ? ', ' : '') + (tes_list[i] ? tes_list[i].full_name : '');
+                    }
+                      
                     const chooseButton = document.createElement('button');
                     chooseButton.className = 'choose-button';
                     chooseButton.textContent = `Choose ${team.name}`;
@@ -563,7 +590,7 @@
             function restartRanking() {
                 const firstTwoTeamsDiv = document.getElementById('first-two-teams');
                 firstTwoTeamsDiv.innerHTML = `
-                    <h2>Choose Between These Two Teams:</h2>
+                    <h2>Which team is best?</h2>
                     <div id="ranking-status"></div>
                 `;
                 
