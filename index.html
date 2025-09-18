@@ -130,17 +130,6 @@
             const value = this.value.trim();
             errorDiv.style.display = 'none';
             
-            // Basic validation - Sleeper league IDs are typically long numbers
-            if (value.length > 0) {
-                if (!/^\d+$/.test(value)) {
-                    showError('League ID should only contain numbers');
-                    return;
-                }
-                if (value.length < 10) {
-                    showError('League ID seems too short');
-                    return;
-                }
-            }
         });
 
         // Handle form submission
@@ -155,52 +144,55 @@
                 return;
             }
             
-            if (!/^\d+$/.test(leagueId)) {
-                showError('League ID should only contain numbers');
-                return;
-            }
-            
-            if (leagueId.length < 10) {
-                showError('League ID seems too short');
-                return;
-            }
-            
             // Fetch league data from API
             fetchLeagueData(leagueId);
         });
 
         async function fetchLeagueData(leagueId) {
-            showLoading();
-            
-            try {
-                // Fetch league info, users and rosters data
-                const [leagueResponse, usersResponse, rostersResponse] = await Promise.all([
-                    fetch(`https://api.sleeper.app/v1/league/${leagueId}`),
-                    fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`),
-                    fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`)
-                ]);
-                
-                if (!leagueResponse.ok || !usersResponse.ok || !rostersResponse.ok) {
-                    throw new Error('League not found or API error');
+
+            const user_data = await fetch(`https://api.sleeper.app/v1/user/${leagueId}`).then(res => res.json());
+            if (user_data === null) {
+                showLoading();
+                try {
+                    // Fetch league info, users and rosters data
+                    const [leagueResponse, usersResponse, rostersResponse] = await Promise.all([
+                        fetch(`https://api.sleeper.app/v1/league/${leagueId}`),
+                        fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`),
+                        fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`)
+                    ]);
+                    
+                    if (!leagueResponse.ok || !usersResponse.ok || !rostersResponse.ok) {
+                        throw new Error('League not found or API error');
+                    }
+                    
+                    const league = await leagueResponse.json();
+                    const users = await usersResponse.json();
+                    const rosters = await rostersResponse.json();
+                    
+                    if (!users || !rosters || users.length === 0) {
+                        throw new Error('No data found for this league');
+                    }
+                    
+                    // Process the data (similar to your Django views)
+                    const processedTeams = processLeagueData(users, rosters, league);
+                    
+                    // Show preview of teams
+                    showLeaguePreview(processedTeams, leagueId);
+                    
+                } catch (error) {
+                    console.error('Error fetching league data:', error);
+                    showError('Could not fetch league data. Please check the league ID and try again.');
                 }
+            } else {
+                const user_id = user_data.user_id;
+                const leagues = await fetch(`https://api.sleeper.app/v1/user/${user_id}/leagues/nfl/2025`).then(res => res.json());
+                console.log('Leagues for user:', leagues);
                 
-                const league = await leagueResponse.json();
-                const users = await usersResponse.json();
-                const rosters = await rostersResponse.json();
-                
-                if (!users || !rosters || users.length === 0) {
-                    throw new Error('No data found for this league');
+                if (leagues && leagues.length > 0) {
+                    showLeagueSelection(leagues, user_data);
+                } else {
+                    showError('No leagues found for this user in 2025 season');
                 }
-                
-                // Process the data (similar to your Django views)
-                const processedTeams = processLeagueData(users, rosters, league);
-                
-                // Show preview of teams
-                showLeaguePreview(processedTeams, leagueId);
-                
-            } catch (error) {
-                console.error('Error fetching league data:', error);
-                showError('Could not fetch league data. Please check the league ID and try again.');
             }
         }
         
@@ -235,6 +227,104 @@
             });
             
             return teams;
+        }
+        
+        function showLeagueSelection(leagues, userData) {
+            // Hide loading and error
+            loadingDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            
+            // Create league selection section
+            const selectionDiv = document.createElement('div');
+            selectionDiv.id = 'leagueSelection';
+            selectionDiv.style.marginTop = '30px';
+            selectionDiv.style.padding = '20px';
+            selectionDiv.style.backgroundColor = '#4a4a4a';
+            selectionDiv.style.borderRadius = '8px';
+            selectionDiv.style.border = '1px solid #666';
+            
+            selectionDiv.innerHTML = `
+                <h3 style="color: #ffffff; margin-bottom: 15px;">📋 Select a League to Rank</h3>
+                <p style="color: #b0b0b0; margin-bottom: 20px;">Found ${leagues.length} league${leagues.length > 1 ? 's' : ''} for ${userData.display_name || userData.username}:</p>
+                <div id="leaguesList" style="text-align: left; max-height: 400px; overflow-y: auto;"></div>
+                <div style="margin-top: 20px;">
+                    <button type="button" id="backToInputBtn" style="background-color: #555; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer;">
+                        ← Back to Input
+                    </button>
+                </div>
+            `;
+            
+            // Remove existing preview if any
+            const existingPreview = document.getElementById('leaguePreview');
+            const existingSelection = document.getElementById('leagueSelection');
+            if (existingPreview) existingPreview.remove();
+            if (existingSelection) existingSelection.remove();
+            
+            // Add selection to container
+            document.querySelector('.container').appendChild(selectionDiv);
+            
+            // Populate leagues list
+            const leaguesList = document.getElementById('leaguesList');
+            leagues.forEach((league, index) => {
+                const leagueDiv = document.createElement('div');
+                leagueDiv.style.display = 'flex';
+                leagueDiv.style.alignItems = 'center';
+                leagueDiv.style.padding = '12px';
+                leagueDiv.style.margin = '8px 0';
+                leagueDiv.style.backgroundColor = '#555';
+                leagueDiv.style.borderRadius = '6px';
+                leagueDiv.style.border = '1px solid #777';
+                leagueDiv.style.cursor = 'pointer';
+                leagueDiv.style.transition = 'background-color 0.3s';
+                
+                leagueDiv.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#666';
+                });
+                leagueDiv.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '#555';
+                });
+                
+                leagueDiv.innerHTML = `
+                    <div style="flex-grow: 1;">
+                        <div style="font-weight: bold; color: #ffffff; font-size: 16px;">${league.name || `League ${league.league_id}`}</div>
+                        <div style="font-size: 14px; color: #b0b0b0; margin-top: 4px;">
+                            ${league.total_rosters} teams • ${league.settings?.playoff_teams || 'N/A'} playoff spots
+                        </div>
+                        <div style="font-size: 12px; color: #888; margin-top: 2px;">
+                            League ID: ${league.league_id}
+                        </div>
+                    </div>
+                    <div style="padding: 8px 16px; background-color: #007bff; color: white; border-radius: 4px; font-size: 14px;">
+                        Select →
+                    </div>
+                `;
+                
+                leagueDiv.addEventListener('click', function() {
+                    selectLeague(league.league_id);
+                });
+                
+                leaguesList.appendChild(leagueDiv);
+            });
+            
+            // Add back button event listener
+            document.getElementById('backToInputBtn').addEventListener('click', function() {
+                selectionDiv.remove();
+                leagueIdInput.value = '';
+                leagueIdInput.focus();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Get League Data';
+            });
+        }
+        
+        function selectLeague(leagueId) {
+            // Remove the selection interface
+            const selectionDiv = document.getElementById('leagueSelection');
+            if (selectionDiv) {
+                selectionDiv.remove();
+            }
+            
+            // Fetch the selected league's data
+            fetchLeagueData(leagueId);
         }
         
         function showLeaguePreview(teams, leagueId) {
