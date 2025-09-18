@@ -41,9 +41,10 @@
         .team-card {
             display: inline-block;
             margin: 0px;
-            padding: 10px;
+            padding: 5px;
+            padding-bottom: 35px;
             width: 500px;
-            height: 350px;
+            min-height: 350px;
             border: 2px solid #666;
             border-radius: 10px;
             text-align: center;
@@ -65,7 +66,7 @@
             color: white;
             border: none;
             padding: 10px 20px;
-            margin: 10px;
+            margin: 0px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
@@ -102,6 +103,116 @@
             min-height: 600px;
             margin: 80px auto 20px auto;
             padding: 10px;
+        }
+        
+        /* Mobile responsive styles */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .nav-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .teams-container {
+                max-width: 100%;
+                min-width: auto;
+                margin: 40px auto 20px auto;
+                padding: 5px;
+                gap: 10px;
+            }
+            
+            .team-card {
+                width: 100%;
+                max-width: 350px;
+                height: auto;
+                min-height: 280px;
+                padding: 12px;
+                margin: 0;
+            }
+            
+            .team-avatar {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 8px;
+            }
+            
+            .team-name {
+                font-size: 16px;
+            }
+            
+            .choose-button {
+                padding: 8px 16px;
+                font-size: 14px;
+                margin: 8px;
+            }
+            
+            .vs-text {
+                font-size: 18px;
+                margin: 0 10px;
+            }
+            
+            #myBar {
+                margin: 5px;
+                height: 15px;
+                font-size: 12px;
+                line-height: 15px;
+            }
+            
+            #first-two-teams h2 {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            
+            /* Final rankings mobile styles */
+            .final-rankings-list {
+                padding: 0 5px;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .header {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .team-card {
+                max-width: 280px;
+                min-height: 250px;
+                padding: 10px;
+            }
+            
+            .team-avatar {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .team-name {
+                font-size: 14px;
+            }
+            
+            .choose-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .vs-text {
+                font-size: 16px;
+            }
         }
     </style>
 </head>

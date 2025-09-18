@@ -84,6 +84,142 @@
             color: #b0b0b0;
             margin-top: 8px;
         }
+        
+        /* Mobile responsive styles */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px;
+                margin: 0;
+            }
+            
+            h1 {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+            
+            .description {
+                font-size: 14px;
+                margin-bottom: 25px;
+            }
+            
+            input[type="text"] {
+                width: 100%;
+                max-width: 280px;
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .submit-button {
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+            
+            .help-text {
+                font-size: 12px;
+            }
+            
+            /* League preview mobile styles */
+            #leaguePreview {
+                padding: 15px !important;
+                margin-top: 20px !important;
+            }
+            
+            #leaguePreview h3 {
+                font-size: 18px !important;
+                margin-bottom: 12px !important;
+            }
+            
+            #leaguePreview p {
+                font-size: 14px !important;
+                margin-bottom: 15px !important;
+            }
+            
+            #teamsList {
+                max-height: 250px !important;
+            }
+            
+            #teamsList > div {
+                padding: 6px 10px !important;
+                margin: 3px 0 !important;
+            }
+            
+            #teamsList img {
+                width: 30px !important;
+                height: 30px !important;
+                margin-right: 10px !important;
+            }
+            
+            #teamsList .team-name {
+                font-size: 14px !important;
+            }
+            
+            #teamsList .team-stats {
+                font-size: 12px !important;
+            }
+            
+            #startRankingBtn, #editLeagueBtn {
+                padding: 10px 15px !important;
+                font-size: 14px !important;
+                margin: 5px !important;
+            }
+            
+            /* League selection mobile styles */
+            #leagueSelection {
+                padding: 15px !important;
+                margin-top: 20px !important;
+            }
+            
+            #leagueSelection h3 {
+                font-size: 18px !important;
+            }
+            
+            #leaguesList > div {
+                padding: 10px !important;
+                margin: 6px 0 !important;
+            }
+            
+            #leaguesList .league-name {
+                font-size: 14px !important;
+            }
+            
+            #leaguesList .league-details {
+                font-size: 12px !important;
+            }
+            
+            #backToInputBtn {
+                padding: 8px 15px !important;
+                font-size: 14px !important;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .description {
+                font-size: 13px;
+            }
+            
+            input[type="text"] {
+                max-width: 250px;
+                padding: 8px;
+                font-size: 13px;
+            }
+            
+            .submit-button {
+                padding: 8px 20px;
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -302,7 +438,7 @@
                     <div style="flex-grow: 1;">
                         <div style="font-weight: bold; color: #ffffff; font-size: 16px;">${league.name || `League ${league.league_id}`}</div>
                         <div style="font-size: 14px; color: #b0b0b0; margin-top: 4px;">
-                            ${league.total_rosters} teams • ${league_positions || 'N/A'}${num_bench > 0 ? `• ${num_bench} BN` : ''}
+                            ${league.total_rosters} teams • ${league_positions || 'N/A'}${num_bench > 0 ? `${num_bench} BN` : ''}
                         </div>
                         <div style="font-size: 12px; color: #888; margin-top: 2px;">
                             League ID: ${league.league_id}
