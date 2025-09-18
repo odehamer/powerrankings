@@ -93,14 +93,14 @@
         
         <form method="post" id="leagueForm">
             <div class="form-group">
-                <label for="league_id">Sleeper League ID:</label>
+                <label for="league_id">Sleeper Username or League ID:</label>
                 <input type="text" 
                        id="league_id" 
                        name="league_id" 
                        required 
-                       placeholder="Enter your Sleeper league ID">
+                       placeholder="Enter your Sleeper username or league ID">
                 <div class="help-text">
-                    You can find your league ID in your Sleeper app URL or league settings
+                    You can find your league ID in your league under "general settings"
                 </div>
             </div>
             
@@ -140,10 +140,10 @@
             
             // Validate league ID
             if (!leagueId) {
-                showError('Please enter a league ID');
+                showError('Please enter a league ID or username');
                 return;
             }
-            
+
             // Fetch league data from API
             fetchLeagueData(leagueId);
         });
@@ -181,11 +181,15 @@
                     
                 } catch (error) {
                     console.error('Error fetching league data:', error);
-                    showError('Could not fetch league data. Please check the league ID and try again.');
+                    showError('Could not fetch data. Please check username or league ID and try again.');
                 }
             } else {
                 const user_id = user_data.user_id;
-                const leagues = await fetch(`https://api.sleeper.app/v1/user/${user_id}/leagues/nfl/2025`).then(res => res.json());
+                let year = new Date().getFullYear();
+                if (new Date().getMonth() < 2) {
+                    year -= 1;
+                }
+                const leagues = await fetch(`https://api.sleeper.app/v1/user/${user_id}/leagues/nfl/${year}`).then(res => res.json());
                 console.log('Leagues for user:', leagues);
                 
                 if (leagues && leagues.length > 0) {
@@ -276,6 +280,16 @@
                 leagueDiv.style.border = '1px solid #777';
                 leagueDiv.style.cursor = 'pointer';
                 leagueDiv.style.transition = 'background-color 0.3s';
+
+                let league_positions = "";
+                let num_bench = 0;
+                for (i = 0; i < league.roster_positions.length; i++) {
+                    if (league.roster_positions[i] === "BN") {
+                        num_bench++;
+                    } else {
+                        league_positions += league.roster_positions[i] + ", ";
+                    }
+                }   
                 
                 leagueDiv.addEventListener('mouseenter', function() {
                     this.style.backgroundColor = '#666';
@@ -288,7 +302,7 @@
                     <div style="flex-grow: 1;">
                         <div style="font-weight: bold; color: #ffffff; font-size: 16px;">${league.name || `League ${league.league_id}`}</div>
                         <div style="font-size: 14px; color: #b0b0b0; margin-top: 4px;">
-                            ${league.total_rosters} teams • ${league.settings?.playoff_teams || 'N/A'} playoff spots
+                            ${league.total_rosters} teams • ${league_positions || 'N/A'}${num_bench > 0 ? `• ${num_bench} BN` : ''}
                         </div>
                         <div style="font-size: 12px; color: #888; margin-top: 2px;">
                             League ID: ${league.league_id}
@@ -443,11 +457,6 @@
             submitBtn.textContent = 'Loading...';
         }
 
-        // Add some example league IDs for testing (optional)
-        function fillExampleId() {
-            leagueIdInput.value = '1254922727656001536';
-        }
-
         // Add keyboard shortcuts
         leagueIdInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -459,21 +468,6 @@
         window.addEventListener('load', function() {
             leagueIdInput.focus();
         });
-
-        // Add sample data button for testing
-        const sampleButton = document.createElement('button');
-        sampleButton.type = 'button';
-        sampleButton.textContent = 'Use Sample League';
-        sampleButton.style.marginLeft = '10px';
-        sampleButton.style.backgroundColor = '#28a745';
-        sampleButton.style.color = 'white';
-        sampleButton.style.border = 'none';
-        sampleButton.style.padding = '12px 20px';
-        sampleButton.style.borderRadius = '6px';
-        sampleButton.style.cursor = 'pointer';
-        sampleButton.addEventListener('click', fillExampleId);
-        
-        submitBtn.parentNode.appendChild(sampleButton);
     </script>
 </body>
 </html>
