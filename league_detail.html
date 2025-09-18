@@ -119,6 +119,26 @@
     </div>
     
     <script>
+        // Define global functions that can be accessed by onclick handlers
+        function restartRanking() {
+            const firstTwoTeamsDiv = document.getElementById('first-two-teams');
+            firstTwoTeamsDiv.innerHTML = `
+                <h2>Which team is best?</h2>
+                <div id="ranking-status"></div>
+            `;
+            
+            // Call the initializeMergeSort function from the main scope
+            if (window.initializeMergeSort) {
+                window.initializeMergeSort();
+            }
+        }
+        
+        function goHome() {
+            console.log("click")
+            sessionStorage.removeItem('leagueData');
+            window.location.href = 'index.html';
+        }
+
         document.addEventListener("DOMContentLoaded", async function() {
             // Get league data from sessionStorage
             const leagueData = JSON.parse(sessionStorage.getItem('leagueData'));
@@ -155,6 +175,9 @@
             let currentComparison = null; // Current teams being compared
             
             console.log("Initial team list:", teamList);
+            
+            // Make initializeMergeSort available globally for restart function
+            window.initializeMergeSort = initializeMergeSort;
             
             function initializeMergeSort() {
                 comparisonResults = {};
@@ -323,7 +346,7 @@
                 const estimatedTotal = Math.ceil(teamList.length * Math.log2(teamList.length));
                 statusDiv.innerHTML = `<div id="myBar"></div>`;
                 let elem = document.getElementById("myBar");
-                elem.style.width = Math.min(100, (totalComparisons / estimatedTotal) * 100) + '%';
+                elem.style.width = Math.min(100, (totalComparisons / estimatedTotal) * 175) + '%';
 
                 
                 // Create a container for the teams
@@ -585,22 +608,6 @@
                     rankItem.appendChild(info);
                     rankingsList.appendChild(rankItem);
                 });
-            }
-            
-            function restartRanking() {
-                const firstTwoTeamsDiv = document.getElementById('first-two-teams');
-                firstTwoTeamsDiv.innerHTML = `
-                    <h2>Which team is best?</h2>
-                    <div id="ranking-status"></div>
-                `;
-                
-                initializeMergeSort();
-            }
-            
-            function goHome() {
-                // Clear the session data and go back to home
-                sessionStorage.removeItem('leagueData');
-                window.location.href = 'index.html';
             }
             
             // Start the merge sort process
