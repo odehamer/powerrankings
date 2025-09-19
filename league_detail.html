@@ -44,7 +44,7 @@
             padding: 5px;
             padding-bottom: 35px;
             width: 500px;
-            min-height: 350px;
+            min-height: auto;
             border: 2px solid #666;
             border-radius: 10px;
             text-align: center;
@@ -113,7 +113,7 @@
             
             .header {
                 padding: 15px;
-                margin-bottom: 15px;
+                margin-bottom: 0px;
             }
             
             .header h1 {
@@ -135,27 +135,49 @@
             
             .team-card {
                 width: 100%;
-                max-width: 350px;
+                max-width: 500px;
                 height: auto;
-                min-height: 280px;
-                padding: 12px;
+                min-height: 320px;
+                padding: 5px;
+                padding-bottom: 70px;
                 margin: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .vs-text {
+                font-size: 20px;
+                margin: 10px;
             }
             
             .team-avatar {
-                width: 70px;
-                height: 70px;
-                margin-bottom: 8px;
+                width: 80px;
+                height: 80px;
+                margin-bottom: 10px;
+                align-self: center;
             }
             
             .team-name {
                 font-size: 16px;
+                margin-bottom: 8px;
+            }
+            
+            /* Make player lists more compact and vertical */
+            .team-card > div {
+                margin-bottom: 4px;
+                font-size: 20px;
+                line-height: 1.4;
+                text-align: center;
+                padding: 0 5px;
             }
             
             .choose-button {
                 padding: 8px 16px;
-                font-size: 14px;
-                margin: 8px;
+                font-size: 20px;
+                margin: 0px;
+                margin-left: auto;
+                margin-right: auto;
             }
             
             .vs-text {
@@ -165,6 +187,7 @@
             
             #myBar {
                 margin: 5px;
+                margin-bottom: 120px;
                 height: 15px;
                 font-size: 12px;
                 line-height: 15px;
@@ -190,28 +213,52 @@
                 font-size: 18px;
             }
             
+            .teams-container {
+                gap: 15px;
+                margin: 30px auto 20px auto;
+            }
+            
             .team-card {
                 max-width: 280px;
-                min-height: 250px;
-                padding: 10px;
+                min-height: 350px;
+                padding: 12px;
             }
             
             .team-avatar {
-                width: 60px;
-                height: 60px;
+                width: 70px;
+                height: 70px;
             }
             
             .team-name {
-                font-size: 14px;
+                font-size: 15px;
+                margin-bottom: 6px;
             }
             
             .choose-button {
-                padding: 6px 12px;
-                font-size: 12px;
+                padding: 10px 16px;
+                font-size: 13px;
+                margin-top: 10px;
+                width: 100%;
+                max-width: 200px;
             }
             
             .vs-text {
                 font-size: 16px;
+                margin: 10px 0;
+                display: block;
+                text-align: center;
+            }
+            
+            /* Make player info even more compact on small phones */
+            .team-card > div {
+                font-size: 10px;
+                margin-bottom: 3px;
+                line-height: 1.3;
+            }
+            
+            #first-two-teams h2 {
+                font-size: 16px;
+                margin-bottom: 10px;
             }
         }
     </style>
