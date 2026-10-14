@@ -218,7 +218,7 @@
         </div>
 
         <div class="footnote">
-            Trade values from <a href="https://www.fantasycalc.com" target="_blank" rel="noopener">FantasyCalc</a>, based on real trades in leagues with your format. Use them as a starting point, not a final answer.
+            Trade values from <a href="https://www.fantasycalc.com" target="_blank" rel="noopener">FantasyCalc</a>, based on real trades in leagues with your format. <span id="flockCredit"></span> Use them as a starting point, not a final answer.
         </div>
     </div>
 
@@ -290,9 +290,11 @@
             const isDynasty = league.settings && league.settings.type === 2;
             const numTeams = league.total_rosters || rosters.length;
 
-            const values = await getJson(
-                `https://api.fantasycalc.com/values/current?isDynasty=${isDynasty}&numQbs=${superflex ? 2 : 1}&numTeams=${numTeams}&ppr=${ppr}`
-            );
+            const [values, flock] = await Promise.all([
+                getJson(`https://api.fantasycalc.com/values/current?isDynasty=${isDynasty}&numQbs=${superflex ? 2 : 1}&numTeams=${numTeams}&ppr=${ppr}`),
+                // Expert rankings, saved nightly by the GitHub Action; optional
+                getJson(`flock_${isDynasty ? (superflex ? 'superflex' : 'oneqb') : (superflex ? 'redraft_sf' : 'redraft')}.json`).catch(() => null)
+            ]);
 
             document.getElementById('league-title').textContent = `${league.name || 'League'} — Trade Targets`;
             const badges = [
@@ -303,7 +305,13 @@
             ];
             document.getElementById('format-badges').innerHTML = badges.map(b => `<span class="badge">${esc(b)}</span>`).join('');
 
-            state = buildState({ league, users, rosters, tradedPicks, values, isDynasty });
+            state = buildState({ league, users, rosters, tradedPicks, values, flock, isDynasty });
+
+            if (flock) {
+                const updated = new Date(flock.updated).toLocaleDateString();
+                document.getElementById('flockCredit').innerHTML =
+                    ` Expert ranks from <a href="https://flockfantasy.com" target="_blank" rel="noopener">Flock Fantasy</a> (${esc(updated)}).`;
+            }
 
             const select = document.getElementById('teamSelect');
             select.innerHTML = state.teams
@@ -324,9 +332,11 @@
             render();
         }
 
-        function buildState({ league, users, rosters, tradedPicks, values, isDynasty }) {
+        function buildState({ league, users, rosters, tradedPicks, values, flock, isDynasty }) {
             const playerValues = {};
             const pickValues = {};
+            const flockById = {};
+            if (flock) flock.players.forEach(f => { flockById[f.fantasyCalcId] = f; });
             values.forEach(v => {
                 const p = v.player;
                 if (p.position === 'PICK') {
@@ -340,10 +350,15 @@
                         age: p.maybeAge,
                         value: v.value,
                         redraftValue: v.redraftValue || 0,
-                        trend: v.trend30Day || 0
+                        trend: v.trend30Day || 0,
+                        flock: flockById[p.id] || null
                     };
                 }
             });
+
+            Object.values(playerValues)
+                .sort((a, b) => b.value - a.value)
+                .forEach((p, i) => { p.marketRank = i + 1; });
 
             const userMap = {};
             users.forEach(u => { userMap[u.user_id] = u; });
@@ -596,6 +611,14 @@
             return best && { give: best.combo.map(c => c.asset), giveValue: best.market };
         }
 
+        // +1 if Flock's experts rank a player well above his trade value, -1 if well below, 0 otherwise
+        function expertGap(asset) {
+            if (!asset.flock || !asset.marketRank) return 0;
+            const diff = asset.marketRank - asset.flock.rank;
+            const threshold = Math.max(8, 0.2 * Math.min(asset.marketRank, asset.flock.rank));
+            return diff >= threshold ? 1 : diff <= -threshold ? -1 : 0;
+        }
+
         function findTargets(me) {
             const { teams, N } = state;
             const myWindow = teamWindow(me, true);
@@ -644,10 +667,18 @@
                         if (myWindow === 'contend' && p.redraftValue >= p.value * 0.9) reasons.push('Helps you win now');
                         if (p.trend <= -300) reasons.push('Value falling — buy-low window');
 
+                        // Experts vs the trade market: buy players the experts like more than traders do
+                        const gap = expertGap(p);
+                        if (gap > 0) reasons.push(`Experts rank him #${p.flock.rank}, market #${p.marketRank} — buy before he catches up`);
+                        if (gap < 0) reasons.push(`Experts are lower on him (#${p.flock.rank} vs market #${p.marketRank})`);
+
                         const offer = buildOffer(me, myWindow, them, p);
                         if (!offer) return;
+                        offer.give.forEach(a => {
+                            if (expertGap(a) < 0) reasons.push(`Experts are lower on ${a.name} than the market — good time to sell`);
+                        });
 
-                        const score = (upgrade / 1000) * (0.6 + needSeverity) + availability * 1.2;
+                        const score = (upgrade / 1000) * (0.6 + needSeverity) + availability * 1.2 + Math.sign(gap) * 0.6;
                         targets.push({ player: p, owner: them, reasons, offer, score });
                     });
                 });
@@ -759,7 +790,7 @@
                         <div class="target-top">
                             <div>
                                 <div class="target-name"><span class="chip pos-${p.pos}">${p.pos}</span> ${esc(p.name)}</div>
-                                <div class="target-meta">${esc(p.nflTeam)}${p.age ? ` · age ${Math.floor(p.age)}` : ''} · value ${fmt(p.value)}${p.trend ? ` · ${p.trend > 0 ? '▲' : '▼'} ${fmt(Math.abs(p.trend))} (30d)` : ''}</div>
+                                <div class="target-meta">${esc(p.nflTeam)}${p.age ? ` · age ${Math.floor(p.age)}` : ''} · value ${fmt(p.value)}${p.flock ? ` · Flock #${p.flock.rank} (${p.pos}${Math.round(p.flock.positionRank)})` : ''}${p.trend ? ` · ${p.trend > 0 ? '▲' : '▼'} ${fmt(Math.abs(p.trend))} (30d)` : ''}</div>
                             </div>
                             <div class="owner">
                                 <img src="${avatarUrl(t.owner.avatar)}" alt="">
@@ -770,11 +801,11 @@
                         <div class="offer">
                             <div class="offer-side">
                                 <h4>You give</h4>
-                                ${give.map(a => `<div class="asset"><span><span class="chip pos-${a.pos}">${a.pos === 'PICK' ? 'PICK' : a.pos}</span> ${esc(a.name)}</span><span class="val">${fmt(a.value)}</span></div>`).join('')}
+                                ${give.map(a => `<div class="asset"><span><span class="chip pos-${a.pos}">${a.pos === 'PICK' ? 'PICK' : a.pos}</span> ${esc(a.name)}</span><span class="val">${a.flock ? `Flock #${a.flock.rank} · ` : ''}${fmt(a.value)}</span></div>`).join('')}
                             </div>
                             <div class="offer-side">
                                 <h4>You get</h4>
-                                <div class="asset"><span><span class="chip pos-${p.pos}">${p.pos}</span> ${esc(p.name)}</span><span class="val">${fmt(p.value)}</span></div>
+                                <div class="asset"><span><span class="chip pos-${p.pos}">${p.pos}</span> ${esc(p.name)}</span><span class="val">${p.flock ? `Flock #${p.flock.rank} · ` : ''}${fmt(p.value)}</span></div>
                             </div>
                         </div>
                         <div class="balance">

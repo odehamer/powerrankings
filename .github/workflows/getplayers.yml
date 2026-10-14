@@ -17,6 +17,10 @@ jobs:
       - name: Get player data
         run:
           curl "https://api.sleeper.app/v1/players/nfl" > players.json
+      - name: Get Flock rankings
+        # Keep the old files if Flock is down or the response changes shape
+        continue-on-error: true
+        run: ./fetch_flock.sh
       - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
