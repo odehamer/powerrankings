@@ -12,6 +12,8 @@
             color: #e0e0e0;
         }
         .container {
+            display: flex;
+            flex-direction: column;
             background-color: #3a3a3a;
             padding: 30px;
             border-radius: 10px;
@@ -20,10 +22,12 @@
             border: 1px solid #555;
         }
         h1 {
+            flex: 1;
             color: #ffffff;
             margin-bottom: 10px;
         }
         .description {
+            flex: 1;
             color: #b0b0b0;
             margin-bottom: 30px;
             font-size: 16px;
@@ -38,6 +42,7 @@
             color: #e0e0e0;
         }
         input[type="text"] {
+            flex: 2;
             width: 300px;
             padding: 12px;
             border: 2px solid #555;
@@ -86,7 +91,7 @@
         }
         
         /* Mobile responsive styles */
-        @media screen and (max-width: 768px) {
+        @media (max-width: 968px) {
             body {
                 padding: 10px;
             }
@@ -94,6 +99,8 @@
             .container {
                 padding: 20px;
                 margin: 0;
+                justify-content: center; /* Horizontally center */
+                align-items: center; /* Vertically center */
             }
             
             h1 {
@@ -173,7 +180,7 @@
                 font-size: 12px !important;
             }
             
-            #startRankingBtn, #editLeagueBtn {
+            #startRankingBtn, #tradeTargetsBtn, #editLeagueBtn {
                 padding: 12px 20px !important;
                 font-size: 14px !important;
                 margin: 8px !important;
@@ -253,7 +260,7 @@
 <body>
     <div class="container">
         <h1>🏆 Fantasy Football Power Rankings 🏆</h1>
-        <p class="description">Create power rankings for your fantasy football league using head-to-head team comparisons</p>
+        <p class="description">Create power rankings for your fantasy football league using head-to-head team comparisons, or find trade targets for your team</p>
         
         <form method="post" id="leagueForm">
             <div class="form-group">
@@ -288,6 +295,7 @@
         const submitBtn = document.getElementById('submitBtn');
         const loadingDiv = document.getElementById('loadingDiv');
         const errorDiv = document.getElementById('errorDiv');
+        let currentUserId = null; // Set when the user searches by Sleeper username
 
         // Add input validation
         leagueIdInput.addEventListener('input', function() {
@@ -309,6 +317,7 @@
             }
 
             // Fetch league data from API
+            currentUserId = null;
             fetchLeagueData(leagueId);
         });
 
@@ -349,6 +358,7 @@
                 }
             } else {
                 const user_id = user_data.user_id;
+                currentUserId = user_id;
                 let year = new Date().getFullYear();
                 if (new Date().getMonth() < 2) {
                     year -= 1;
@@ -359,7 +369,7 @@
                 if (leagues && leagues.length > 0) {
                     showLeagueSelection(leagues, user_data);
                 } else {
-                    showError('No leagues found for this user in 2025 season');
+                    showError(`No leagues found for this user in the ${year} season`);
                 }
             }
         }
@@ -540,6 +550,9 @@
                     <button type="button" id="startRankingBtn" class="submit-button">
                         Start Power Rankings
                     </button>
+                    <button type="button" id="tradeTargetsBtn" class="submit-button" style="margin-left: 10px; background-color: #2e7d32;">
+                        Find Trade Targets
+                    </button>
                     <button type="button" id="editLeagueBtn" style="margin-left: 10px; background-color: #555; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer;">
                         Try Different League
                     </button>
@@ -583,6 +596,12 @@
             document.getElementById('startRankingBtn').addEventListener('click', function() {
                 // Pass the team data directly to the ranking page
                 startRankingsWithData(teams, leagueId);
+            });
+            
+            document.getElementById('tradeTargetsBtn').addEventListener('click', function() {
+                const query = new URLSearchParams({ league: leagueId });
+                if (currentUserId) query.set('user', currentUserId);
+                window.location.href = `trade.html?${query}`;
             });
             
             document.getElementById('editLeagueBtn').addEventListener('click', function() {

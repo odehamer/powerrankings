@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Trade Targets</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+        }
+        .card {
+            background-color: #3a3a3a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #555;
+            margin-bottom: 20px;
+        }
+        .header { text-align: center; }
+        .header h1 { color: #ffffff; margin: 10px 0 8px; font-size: 26px; }
+        h2 { color: #ffffff; font-size: 20px; margin: 0 0 6px; }
+        .subtle { color: #b0b0b0; font-size: 14px; }
+        .nav-button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .nav-button:hover { background-color: #666; }
+        .badges { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 8px; }
+        .badge {
+            background-color: #4a4a4a;
+            border: 1px solid #666;
+            border-radius: 12px;
+            padding: 3px 10px;
+            font-size: 12px;
+            color: #d1dbeb;
+        }
+        select {
+            background-color: #4a4a4a;
+            color: #ffffff;
+            border: 2px solid #555;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 15px;
+            max-width: 100%;
+        }
+        .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+        .control-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .segmented { display: inline-flex; border: 1px solid #666; border-radius: 6px; overflow: hidden; }
+        .segmented button {
+            background: #4a4a4a;
+            color: #e0e0e0;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .segmented button + button { border-left: 1px solid #666; }
+        .segmented button.active { background: #007bff; color: #fff; }
+
+        .window-line { margin-top: 16px; font-size: 15px; }
+        .window-tag { font-weight: bold; padding: 2px 8px; border-radius: 4px; }
+        .window-contend { background: #1e5631; color: #b8f5c8; }
+        .window-middle { background: #5a4a1a; color: #ffe39a; }
+        .window-rebuild { background: #5a2330; color: #ffc2cf; }
+
+        .pos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; }
+        .pos-cell { background: #4a4a4a; border: 1px solid #666; border-radius: 8px; padding: 10px; }
+        .pos-cell .pos-label { font-weight: bold; font-size: 15px; }
+        .pos-cell .pos-rank { font-size: 22px; font-weight: bold; color: #fff; margin: 4px 0; }
+        .pos-cell .pos-rank small { font-size: 13px; color: #b0b0b0; font-weight: normal; }
+        .rank-bar { height: 6px; background: #2c2c2c; border-radius: 3px; overflow: hidden; }
+        .rank-bar > div { height: 100%; border-radius: 3px; }
+        .pos-cell .pos-note { font-size: 12px; color: #b0b0b0; margin-top: 6px; }
+
+        .pos-QB { color: #ef74a1; }
+        .pos-RB { color: #8ff2ca; }
+        .pos-WR { color: #59c9f8; }
+        .pos-TE { color: #feae58; }
+        .pos-PICK { color: #c9b6ff; }
+        .chip {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #2c2c2c;
+            border: 1px solid currentColor;
+            vertical-align: middle;
+        }
+
+        .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 4px; }
+        .filters button {
+            background: #4a4a4a;
+            color: #e0e0e0;
+            border: 1px solid #666;
+            border-radius: 14px;
+            padding: 5px 12px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .filters button.active { background: #007bff; border-color: #007bff; color: #fff; }
+
+        .target {
+            background: #4a4a4a;
+            border: 1px solid #666;
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 12px;
+        }
+        .target-top { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
+        .target-name { font-size: 18px; font-weight: bold; color: #fff; }
+        .target-meta { font-size: 13px; color: #b0b0b0; margin-top: 3px; }
+        .owner { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #d1dbeb; }
+        .owner img { width: 28px; height: 28px; border-radius: 50%; }
+        .reasons { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+        .reason {
+            font-size: 12px;
+            background: #3a3a3a;
+            border: 1px solid #5a5a5a;
+            border-radius: 4px;
+            padding: 3px 8px;
+            color: #d6d6d6;
+        }
+        .offer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .offer-side { background: #3a3a3a; border-radius: 6px; padding: 10px; }
+        .offer-side h4 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #b0b0b0; }
+        .asset { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; padding: 3px 0; }
+        .asset .val { color: #b0b0b0; font-variant-numeric: tabular-nums; }
+        .balance { margin-top: 10px; font-size: 13px; color: #b0b0b0; }
+        .balance-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 4px; background: #2c2c2c; }
+        .balance-bar .give { background: #ff8a65; }
+        .balance-bar .get { background: #4CAF50; }
+
+        .partner {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: #4a4a4a;
+            border: 1px solid #666;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: 8px;
+        }
+        .partner img { width: 40px; height: 40px; border-radius: 50%; }
+        .partner .p-body { flex: 1; min-width: 0; }
+        .partner .p-name { font-weight: bold; color: #fff; }
+        .partner .p-detail { font-size: 13px; color: #b0b0b0; margin-top: 2px; }
+
+        .status { text-align: center; padding: 40px 10px; color: #b0b0b0; }
+        .error { color: #ff6b6b; }
+        .empty { color: #b0b0b0; padding: 16px 0; }
+        .footnote { font-size: 12px; color: #888; text-align: center; margin-top: 10px; }
+        .footnote a { color: #8ab4f8; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .card { padding: 15px; }
+            .header h1 { font-size: 20px; }
+            .pos-grid { grid-template-columns: repeat(2, 1fr); }
+            .offer { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .control-group { justify-content: space-between; }
+            select { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card header">
+        <div><button class="nav-button" onclick="window.location.href='index.html'">← Back to Home</button></div>
+        <h1 id="league-title">Trade Targets</h1>
+        <div class="badges" id="format-badges"></div>
+    </div>
+
+    <div id="status" class="status">🔄 Loading league and player values...</div>
+
+    <div id="content" style="display: none;">
+        <div class="card">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="teamSelect"><strong>Your team:</strong></label>
+                    <select id="teamSelect"></select>
+                </div>
+                <div class="control-group" id="windowControl">
+                    <strong>Team direction:</strong>
+                    <div class="segmented" id="windowToggle">
+                        <button data-mode="auto" class="active">Auto</button>
+                        <button data-mode="contend">Contend</button>
+                        <button data-mode="rebuild">Rebuild</button>
+                    </div>
+                </div>
+            </div>
+            <div class="window-line" id="windowLine"></div>
+            <div class="pos-grid" id="posGrid"></div>
+        </div>
+
+        <div class="card">
+            <h2>🎯 Trade Targets</h2>
+            <div class="subtle">Players who fill your weakest spots, on teams likely to move them, with an offer built from your spare assets.</div>
+            <div class="filters" id="posFilters"></div>
+            <div id="targetsList"></div>
+        </div>
+
+        <div class="card">
+            <h2>🤝 Best Trade Partners</h2>
+            <div class="subtle">Teams whose surplus lines up with your needs, and whose needs line up with your surplus.</div>
+            <div id="partnersList"></div>
+        </div>
+
+        <div class="footnote">
+            Trade values from <a href="https://www.fantasycalc.com" target="_blank" rel="noopener">FantasyCalc</a>, based on real trades in leagues with your format. Use them as a starting point, not a final answer.
+        </div>
+    </div>
+
+    <script>
+        const POSITIONS = ['QB', 'RB', 'WR', 'TE'];
+        const SLOT_ELIGIBLE = {
+            QB: ['QB'], RB: ['RB'], WR: ['WR'], TE: ['TE'],
+            FLEX: ['RB', 'WR', 'TE'],
+            WRRB_FLEX: ['RB', 'WR'],
+            REC_FLEX: ['WR', 'TE'],
+            SUPER_FLEX: ['QB', 'RB', 'WR', 'TE']
+        };
+        // Age at which dynasty value usually starts to fall off
+        const AGING = { QB: 32, RB: 27, WR: 29, TE: 30 };
+        const YOUNG = 24;
+        // A 2-for-1 is worth less than the sum of its parts
+        const PACKAGE_WEIGHTS = [1, 0.8, 0.65];
+
+        const params = new URLSearchParams(window.location.search);
+        const leagueId = params.get('league');
+        let state = null;
+        let windowMode = 'auto';
+        let posFilter = 'ALL';
+
+        function esc(text) {
+            const div = document.createElement('div');
+            div.textContent = text == null ? '' : String(text);
+            return div.innerHTML;
+        }
+
+        function fmt(n) {
+            return Math.round(n).toLocaleString();
+        }
+
+        function ordinal(n) {
+            return n + (['th', 'st', 'nd', 'rd'][(n % 100 - 20) % 10] || ['th', 'st', 'nd', 'rd'][n % 100] || 'th');
+        }
+
+        function avatarUrl(avatar) {
+            if (!avatar) return 'https://sleepercdn.com/avatars/default_avatar.png';
+            if (avatar.startsWith('http')) return avatar;
+            return `https://sleepercdn.com/avatars/thumbs/${avatar}`;
+        }
+
+        async function getJson(url) {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`Request failed: ${url}`);
+            return res.json();
+        }
+
+        async function load() {
+            if (!leagueId) {
+                showError('No league selected. Go back home and pick a league first.');
+                return;
+            }
+
+            const [league, users, rosters, tradedPicks] = await Promise.all([
+                getJson(`https://api.sleeper.app/v1/league/${leagueId}`),
+                getJson(`https://api.sleeper.app/v1/league/${leagueId}/users`),
+                getJson(`https://api.sleeper.app/v1/league/${leagueId}/rosters`),
+                getJson(`https://api.sleeper.app/v1/league/${leagueId}/traded_picks`).catch(() => [])
+            ]);
+            if (!league || !rosters) throw new Error('League not found');
+
+            const positions = league.roster_positions || [];
+            const qbSlots = positions.filter(p => p === 'QB').length;
+            const superflex = positions.includes('SUPER_FLEX') || qbSlots >= 2;
+            const ppr = (league.scoring_settings && league.scoring_settings.rec) || 0;
+            const isDynasty = league.settings && league.settings.type === 2;
+            const numTeams = league.total_rosters || rosters.length;
+
+            const values = await getJson(
+                `https://api.fantasycalc.com/values/current?isDynasty=${isDynasty}&numQbs=${superflex ? 2 : 1}&numTeams=${numTeams}&ppr=${ppr}`
+            );
+
+            document.getElementById('league-title').textContent = `${league.name || 'League'} — Trade Targets`;
+            const badges = [
+                isDynasty ? 'Dynasty' : (league.settings.type === 1 ? 'Keeper (redraft values)' : 'Redraft'),
+                superflex ? 'Superflex' : '1QB',
+                ppr === 1 ? 'PPR' : ppr === 0.5 ? 'Half PPR' : ppr === 0 ? 'Standard' : `${ppr} PPR`,
+                `${numTeams} teams`
+            ];
+            document.getElementById('format-badges').innerHTML = badges.map(b => `<span class="badge">${esc(b)}</span>`).join('');
+
+            state = buildState({ league, users, rosters, tradedPicks, values, isDynasty });
+
+            const select = document.getElementById('teamSelect');
+            select.innerHTML = state.teams
+                .slice()
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map(t => `<option value="${t.rosterId}">${esc(t.name)}</option>`)
+                .join('');
+
+            const userId = params.get('user');
+            const mine = userId && state.teams.find(t => t.ownerIds.includes(userId));
+            if (mine) select.value = String(mine.rosterId);
+
+            select.addEventListener('change', render);
+            if (!isDynasty) document.getElementById('windowControl').style.display = 'none';
+
+            document.getElementById('status').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            render();
+        }
+
+        function buildState({ league, users, rosters, tradedPicks, values, isDynasty }) {
+            const playerValues = {};
+            const pickValues = {};
+            values.forEach(v => {
+                const p = v.player;
+                if (p.position === 'PICK') {
+                    pickValues[p.name] = v.value;
+                } else if (p.sleeperId) {
+                    playerValues[p.sleeperId] = {
+                        id: p.sleeperId,
+                        name: p.name,
+                        pos: p.position,
+                        nflTeam: p.maybeTeam || 'FA',
+                        age: p.maybeAge,
+                        value: v.value,
+                        redraftValue: v.redraftValue || 0,
+                        trend: v.trend30Day || 0
+                    };
+                }
+            });
+
+            const userMap = {};
+            users.forEach(u => { userMap[u.user_id] = u; });
+
+            const slots = (league.roster_positions || []).filter(s => SLOT_ELIGIBLE[s]);
+
+            const teams = rosters.map(r => {
+                const owner = userMap[r.owner_id];
+                const name = owner
+                    ? ((owner.metadata && owner.metadata.team_name) || owner.display_name)
+                    : `Team ${r.roster_id} (orphan)`;
+                const settings = r.settings || {};
+                const players = (r.players || [])
+                    .map(id => playerValues[id])
+                    .filter(Boolean)
+                    .map(p => ({ ...p, rosterId: r.roster_id }));
+                return {
+                    rosterId: r.roster_id,
+                    ownerIds: [r.owner_id, ...(r.co_owners || [])].filter(Boolean),
+                    name,
+                    avatar: owner ? (owner.metadata && owner.metadata.avatar) || owner.avatar : null,
+                    wins: settings.wins || 0,
+                    losses: settings.losses || 0,
+                    ties: settings.ties || 0,
+                    players,
+                    picks: []
+                };
+            });
+            const N = teams.length;
+
+            // Win-now strength: best possible lineup using this season's (redraft) values
+            teams.forEach(t => {
+                const lineup = bestLineup(t.players, slots, 'redraftValue');
+                t.starterIds = new Set(lineup.map(p => p.id));
+                t.winNowScore = lineup.reduce((s, p) => s + p.redraftValue, 0);
+            });
+            rankBy(teams, 'winNowScore', 'winNowRank');
+
+            const gamesPlayed = Math.max(...teams.map(t => t.wins + t.losses + t.ties));
+            teams.forEach(t => {
+                const games = t.wins + t.losses + t.ties;
+                t.winPct = games ? (t.wins + t.ties / 2) / games : 0.5;
+            });
+            rankBy(teams, 'winPct', 'recordRank');
+            // Lean on the actual record more as the season goes on
+            const recordWeight = Math.min(gamesPlayed / 14, 1) * 0.5;
+            teams.forEach(t => {
+                t.projectedRank = (1 - recordWeight) * t.winNowRank + recordWeight * t.recordRank;
+            });
+            rankBy(teams, 'projectedRank', 'projectedPlace', true);
+
+            if (isDynasty) attachPicks(teams, league, tradedPicks, pickValues);
+
+            // How many starters each position gets on an average lineup in this league
+            const starterCounts = {};
+            POSITIONS.forEach(pos => { starterCounts[pos] = 0; });
+            teams.forEach(t => {
+                bestLineup(t.players, slots, 'value').forEach(p => { starterCounts[p.pos]++; });
+            });
+            POSITIONS.forEach(pos => {
+                starterCounts[pos] = Math.max(1, Math.round(starterCounts[pos] / N));
+            });
+
+            teams.forEach(t => {
+                t.posScore = {};
+                t.posPlayers = {};
+                POSITIONS.forEach(pos => {
+                    t.posScore[pos] = positionScore(t.players, pos, starterCounts);
+                    t.posPlayers[pos] = t.players.filter(p => p.pos === pos).sort((a, b) => b.value - a.value);
+                });
+                t.totalValue = t.players.reduce((s, p) => s + p.value, 0) + t.picks.reduce((s, p) => s + p.value, 0);
+            });
+
+            teams.forEach(t => { t.posRank = {}; });
+            POSITIONS.forEach(pos => {
+                const sorted = [...teams].sort((a, b) => b.posScore[pos] - a.posScore[pos]);
+                sorted.forEach((t, i) => { t.posRank[pos] = i + 1; });
+            });
+
+            teams.forEach(t => {
+                t.autoWindow = !isDynasty ? 'contend'
+                    : t.projectedPlace <= Math.ceil(N / 3) ? 'contend'
+                    : t.projectedPlace > Math.floor((2 * N) / 3) ? 'rebuild'
+                    : 'middle';
+                const ranked = [...POSITIONS].sort((a, b) => t.posRank[b] - t.posRank[a]);
+                t.needs = ranked.filter(pos => t.posRank[pos] > N / 2);
+                if (t.needs.length === 0) t.needs = [ranked[0]];
+                t.surplus = POSITIONS.filter(pos => t.posRank[pos] <= Math.ceil(N / 3));
+            });
+
+            return { teams, slots, starterCounts, isDynasty, N };
+        }
+
+        // Value of a team's likely starters at a position, plus a little credit for depth
+        function positionScore(players, pos, starterCounts) {
+            const group = players.filter(p => p.pos === pos).sort((a, b) => b.value - a.value);
+            const k = starterCounts[pos];
+            const starters = group.slice(0, k).reduce((s, p) => s + p.value, 0);
+            const depth = group[k] ? group[k].value * 0.35 : 0;
+            return starters + depth;
+        }
+
+        // Where a team would rank at a position with a different set of players
+        function rankWith(me, players, pos) {
+            const score = positionScore(players, pos, state.starterCounts);
+            return 1 + state.teams.filter(t => t !== me && t.posScore[pos] > score).length;
+        }
+
+        // Reject trades that open up a new hole on your roster
+        function keepsRosterIntact(me, give, target) {
+            const giveIds = new Set(give.map(a => a.id));
+            const after = [...me.players.filter(p => !giveIds.has(p.id)), target];
+            const weak = Math.floor((2 * state.N) / 3);
+            return POSITIONS.every(pos => {
+                const before = me.posRank[pos];
+                const now = rankWith(me, after, pos);
+                return now <= Math.max(before, weak);
+            });
+        }
+
+        function rankBy(teams, key, rankKey, ascending = false) {
+            const sorted = [...teams].sort((a, b) => ascending ? a[key] - b[key] : b[key] - a[key]);
+            sorted.forEach((t, i) => { t[rankKey] = i + 1; });
+        }
+
+        function bestLineup(players, slots, key) {
+            const sorted = [...players].sort((a, b) => b[key] - a[key]);
+            const used = new Set();
+            const lineup = [];
+            // Fill the most restrictive slots first so flex spots get what's left
+            const ordered = [...slots].sort((a, b) => SLOT_ELIGIBLE[a].length - SLOT_ELIGIBLE[b].length);
+            ordered.forEach(slot => {
+                const p = sorted.find(p => !used.has(p.id) && SLOT_ELIGIBLE[slot].includes(p.pos));
+                if (p) {
+                    used.add(p.id);
+                    lineup.push(p);
+                }
+            });
+            return lineup;
+        }
+
+        function attachPicks(teams, league, tradedPicks, pickValues) {
+            const seasons = [...new Set(Object.keys(pickValues).map(name => parseInt(name, 10)))]
+                .filter(s => s > parseInt(league.season, 10) || (s === parseInt(league.season, 10) && league.status === 'pre_draft'))
+                .sort();
+            if (seasons.length === 0) return;
+            const rounds = (league.settings && league.settings.draft_rounds) || 4;
+            const nearest = seasons[0];
+            const N = teams.length;
+            const byRoster = {};
+            teams.forEach(t => { byRoster[t.rosterId] = t; });
+
+            const owner = {};
+            tradedPicks.forEach(tp => {
+                owner[`${tp.season}-${tp.round}-${tp.roster_id}`] = tp.owner_id;
+            });
+
+            seasons.forEach(season => {
+                for (let round = 1; round <= rounds; round++) {
+                    teams.forEach(orig => {
+                        let name = `${season} ${ordinal(round)}`;
+                        if (season === nearest) {
+                            // Weaker teams pick earlier
+                            const place = orig.projectedPlace;
+                            const slot = place > (2 * N) / 3 ? 'Early' : place > N / 3 ? 'Mid' : 'Late';
+                            if (pickValues[`${name} (${slot})`] !== undefined) name = `${name} (${slot})`;
+                        }
+                        const value = pickValues[name];
+                        if (value === undefined) return;
+                        const holder = byRoster[owner[`${season}-${round}-${orig.rosterId}`] || orig.rosterId];
+                        if (!holder) return;
+                        holder.picks.push({
+                            id: `pick-${season}-${round}-${orig.rosterId}`,
+                            name: holder === orig ? name : `${name} (via ${orig.name})`,
+                            pos: 'PICK',
+                            value,
+                            redraftValue: 0,
+                            age: null,
+                            rosterId: holder.rosterId
+                        });
+                    });
+                }
+            });
+        }
+
+        // How much an asset is worth to a team, given where that team is headed
+        function fitValue(asset, window) {
+            if (window === 'contend') {
+                return 0.4 * asset.value + 0.6 * asset.redraftValue;
+            }
+            if (window === 'rebuild') {
+                if (asset.pos === 'PICK') return asset.value * 1.15;
+                if (asset.age && asset.age >= AGING[asset.pos]) return asset.value * 0.7;
+                if (asset.age && asset.age <= YOUNG) return asset.value * 1.1;
+            }
+            return asset.value;
+        }
+
+        function teamWindow(team, isMe) {
+            if (isMe && windowMode !== 'auto') return windowMode;
+            return team.autoWindow;
+        }
+
+        function packageValue(values) {
+            return [...values].sort((a, b) => b - a).reduce((s, v, i) => s + v * PACKAGE_WEIGHTS[i], 0);
+        }
+
+        function buildOffer(me, myWindow, them, target) {
+            const theirWindow = teamWindow(them, false);
+            const targetMarket = target.value;
+            const targetToThem = fitValue(target, theirWindow) * (them.starterIds.has(target.id) && them.needs.includes(target.pos) ? 1.15 : 1);
+
+            // Don't offer starters from positions you're already thin at
+            const pool = [...me.players, ...me.picks]
+                .filter(a => !(me.needs.includes(a.pos) && me.starterIds.has(a.id)))
+                .filter(a => a.value >= targetMarket * 0.12 && a.value <= targetMarket * 1.3)
+                .map(a => ({
+                    asset: a,
+                    costToMe: fitValue(a, myWindow) * (me.starterIds.has(a.id) ? 1 : 0.6),
+                    worthToThem: fitValue(a, theirWindow) * (them.needs.includes(a.pos) ? 1.15 : 1)
+                }))
+                .sort((a, b) => b.asset.value - a.asset.value)
+                .slice(0, 14);
+
+            let best = null;
+            const consider = combo => {
+                const market = packageValue(combo.map(c => c.asset.value));
+                const theirs = packageValue(combo.map(c => c.worthToThem));
+                if (market < targetMarket * 0.95 || market > targetMarket * 1.25) return;
+                if (theirs < targetToThem * 0.95) return;
+                if (!keepsRosterIntact(me, combo.map(c => c.asset), target)) return;
+                const cost = combo.reduce((s, c) => s + c.costToMe, 0);
+                const fillsNeeds = combo.filter(c => them.needs.includes(c.asset.pos)).length;
+                const score = Math.abs(market / targetMarket - 1.03) * 2
+                    + (cost / targetMarket) * 0.5
+                    + (combo.length - 1) * 0.08
+                    - fillsNeeds * 0.06;
+                if (!best || score < best.score) best = { combo, market, score };
+            };
+
+            for (let i = 0; i < pool.length; i++) {
+                consider([pool[i]]);
+                for (let j = i + 1; j < pool.length; j++) {
+                    consider([pool[i], pool[j]]);
+                    for (let k = j + 1; k < pool.length; k++) {
+                        consider([pool[i], pool[j], pool[k]]);
+                    }
+                }
+            }
+            return best && { give: best.combo.map(c => c.asset), giveValue: best.market };
+        }
+
+        function findTargets(me) {
+            const { teams, N } = state;
+            const myWindow = teamWindow(me, true);
+            const targets = [];
+
+            me.needs.forEach(pos => {
+                const needSeverity = (me.posRank[pos] - 1) / Math.max(N - 1, 1);
+                const mine = me.posPlayers[pos];
+                const weakestStarter = mine[state.starterCounts[pos] - 1];
+                const bar = weakestStarter ? fitValue(weakestStarter, myWindow) : 0;
+
+                teams.forEach(them => {
+                    if (them === me) return;
+                    const theirWindow = teamWindow(them, false);
+                    them.players.filter(p => p.pos === pos).forEach(p => {
+                        const fit = fitValue(p, myWindow);
+                        const upgrade = fit - bar;
+                        if (upgrade <= 0 || p.value < 800) return;
+                        // Rebuilding teams shouldn't be buying players about to lose value
+                        if (state.isDynasty && myWindow === 'rebuild' && p.age >= AGING[pos] - 1) return;
+
+                        const reasons = [`Upgrades your ${pos} room (#${me.posRank[pos]} of ${N})`];
+                        let availability = 0;
+                        if (them.surplus.includes(pos)) {
+                            availability += 1;
+                            reasons.push(`${them.name} is deep at ${pos} (#${them.posRank[pos]})`);
+                        }
+                        if (!them.starterIds.has(p.id)) {
+                            availability += 1;
+                            reasons.push('Not in their best lineup');
+                        }
+                        if (state.isDynasty && theirWindow === 'rebuild' && p.age >= AGING[pos]) {
+                            availability += 1;
+                            reasons.push(`They look like a rebuilder — vets at ${Math.floor(p.age)} are sellable`);
+                        }
+                        if (state.isDynasty && theirWindow === 'contend' && p.age <= YOUNG && !them.starterIds.has(p.id)) {
+                            availability += 0.75;
+                            reasons.push('They’re contending — may move youth for help now');
+                        }
+                        const mutual = them.needs.filter(n => me.surplus.includes(n));
+                        if (mutual.length) {
+                            availability += 0.75;
+                            reasons.push(`They need ${mutual.join('/')}, where you’re deep`);
+                        }
+                        if (state.isDynasty && myWindow === 'rebuild' && p.age <= YOUNG) reasons.push(`Young (${Math.floor(p.age)}) — fits a rebuild`);
+                        if (myWindow === 'contend' && p.redraftValue >= p.value * 0.9) reasons.push('Helps you win now');
+                        if (p.trend <= -300) reasons.push('Value falling — buy-low window');
+
+                        const offer = buildOffer(me, myWindow, them, p);
+                        if (!offer) return;
+
+                        const score = (upgrade / 1000) * (0.6 + needSeverity) + availability * 1.2;
+                        targets.push({ player: p, owner: them, reasons, offer, score });
+                    });
+                });
+            });
+
+            targets.sort((a, b) => b.score - a.score);
+            // Keep the list varied: no more than 3 targets from one team
+            const perOwner = {};
+            return targets.filter(t => {
+                perOwner[t.owner.rosterId] = (perOwner[t.owner.rosterId] || 0) + 1;
+                return perOwner[t.owner.rosterId] <= 3;
+            }).slice(0, 25);
+        }
+
+        function findPartners(me) {
+            return state.teams
+                .filter(t => t !== me)
+                .map(them => {
+                    const theyHelp = me.needs.filter(pos => them.surplus.includes(pos));
+                    const iHelp = them.needs.filter(pos => me.surplus.includes(pos));
+                    let score = theyHelp.length * 2 + iHelp.length * 2;
+                    if (theyHelp.length && iHelp.length) score += 2;
+                    // A contender and a rebuilder have natural deals to make
+                    const myWindow = teamWindow(me, true);
+                    const theirWindow = teamWindow(them, false);
+                    const opposite = state.isDynasty && ((myWindow === 'contend' && theirWindow === 'rebuild') || (myWindow === 'rebuild' && theirWindow === 'contend'));
+                    if (opposite) score += 1.5;
+                    return { them, theyHelp, iHelp, opposite, score };
+                })
+                .filter(p => p.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 5);
+        }
+
+        const WINDOW_LABELS = {
+            contend: ['Contender', 'window-contend'],
+            middle: ['In the middle', 'window-middle'],
+            rebuild: ['Rebuilder', 'window-rebuild']
+        };
+
+        function render() {
+            const me = state.teams.find(t => String(t.rosterId) === document.getElementById('teamSelect').value);
+            const { N } = state;
+            const myWindow = teamWindow(me, true);
+            const [label, cls] = WINDOW_LABELS[myWindow];
+
+            const record = `${me.wins}-${me.losses}${me.ties ? `-${me.ties}` : ''}`;
+            let windowText = `<span class="window-tag ${cls}">${label}</span> `;
+            if (state.isDynasty) {
+                windowText += `Starting lineup ranks #${me.winNowRank} of ${N} for this season · record ${record} · total value #${rankOf(me, 'totalValue')} of ${N}`;
+                if (windowMode === 'auto' && myWindow === 'middle') windowText += ' — pick Contend or Rebuild to sharpen the targets.';
+            } else {
+                windowText = `Starting lineup ranks #${me.winNowRank} of ${N} · record ${record}`;
+            }
+            document.getElementById('windowLine').innerHTML = windowText;
+
+            document.getElementById('posGrid').innerHTML = POSITIONS.map(pos => {
+                const rank = me.posRank[pos];
+                const pct = N > 1 ? (N - rank) / (N - 1) : 1;
+                const color = pct >= 0.66 ? '#4CAF50' : pct >= 0.4 ? '#feae58' : '#ff6b6b';
+                const note = me.needs.includes(pos) ? 'Need' : me.surplus.includes(pos) ? 'Strength' : 'Average';
+                const top = me.posPlayers[pos].slice(0, 2).map(p => p.name.split(' ').slice(-1)[0]).join(', ') || 'None';
+                return `
+                    <div class="pos-cell">
+                        <div class="pos-label pos-${pos}">${pos}</div>
+                        <div class="pos-rank">#${rank} <small>of ${N}</small></div>
+                        <div class="rank-bar"><div style="width:${Math.max(pct * 100, 4)}%;background:${color}"></div></div>
+                        <div class="pos-note"><strong>${note}</strong> · ${esc(top)}</div>
+                    </div>`;
+            }).join('');
+
+            renderTargets(me);
+            renderPartners(me);
+        }
+
+        function rankOf(team, key) {
+            return [...state.teams].sort((a, b) => b[key] - a[key]).indexOf(team) + 1;
+        }
+
+        function renderTargets(me) {
+            const targets = findTargets(me);
+            const positions = ['ALL', ...POSITIONS.filter(pos => targets.some(t => t.player.pos === pos))];
+            if (!positions.includes(posFilter)) posFilter = 'ALL';
+
+            const filters = document.getElementById('posFilters');
+            filters.innerHTML = positions.map(pos =>
+                `<button data-pos="${pos}" class="${pos === posFilter ? 'active' : ''}">${pos === 'ALL' ? 'All' : pos}</button>`
+            ).join('');
+            filters.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    posFilter = btn.dataset.pos;
+                    renderTargets(me);
+                });
+            });
+
+            const shown = targets.filter(t => posFilter === 'ALL' || t.player.pos === posFilter);
+            const list = document.getElementById('targetsList');
+            if (shown.length === 0) {
+                list.innerHTML = '<div class="empty">No clear targets found — your roster may already be strong where it matters, or you may not have spare assets that match.</div>';
+                return;
+            }
+
+            list.innerHTML = shown.map(t => {
+                const p = t.player;
+                const give = t.offer.give;
+                const total = t.offer.giveValue + p.value;
+                return `
+                    <div class="target">
+                        <div class="target-top">
+                            <div>
+                                <div class="target-name"><span class="chip pos-${p.pos}">${p.pos}</span> ${esc(p.name)}</div>
+                                <div class="target-meta">${esc(p.nflTeam)}${p.age ? ` · age ${Math.floor(p.age)}` : ''} · value ${fmt(p.value)}${p.trend ? ` · ${p.trend > 0 ? '▲' : '▼'} ${fmt(Math.abs(p.trend))} (30d)` : ''}</div>
+                            </div>
+                            <div class="owner">
+                                <img src="${avatarUrl(t.owner.avatar)}" alt="">
+                                <span>${esc(t.owner.name)}<br><span class="subtle" style="font-size:12px">${WINDOW_LABELS[teamWindow(t.owner, false)][0]}</span></span>
+                            </div>
+                        </div>
+                        <div class="reasons">${t.reasons.map(r => `<span class="reason">${esc(r)}</span>`).join('')}</div>
+                        <div class="offer">
+                            <div class="offer-side">
+                                <h4>You give</h4>
+                                ${give.map(a => `<div class="asset"><span><span class="chip pos-${a.pos}">${a.pos === 'PICK' ? 'PICK' : a.pos}</span> ${esc(a.name)}</span><span class="val">${fmt(a.value)}</span></div>`).join('')}
+                            </div>
+                            <div class="offer-side">
+                                <h4>You get</h4>
+                                <div class="asset"><span><span class="chip pos-${p.pos}">${p.pos}</span> ${esc(p.name)}</span><span class="val">${fmt(p.value)}</span></div>
+                            </div>
+                        </div>
+                        <div class="balance">
+                            ${give.length > 1 ? `Package value after the 2-for-1 discount: ${fmt(t.offer.giveValue)} vs ${fmt(p.value)}` : `Value: ${fmt(t.offer.giveValue)} vs ${fmt(p.value)}`}
+                            <div class="balance-bar">
+                                <div class="give" style="width:${(t.offer.giveValue / total) * 100}%"></div>
+                                <div class="get" style="width:${(p.value / total) * 100}%"></div>
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderPartners(me) {
+            const partners = findPartners(me);
+            const list = document.getElementById('partnersList');
+            if (partners.length === 0) {
+                list.innerHTML = '<div class="empty">No obvious partners — no other team has a surplus where you need help.</div>';
+                return;
+            }
+            list.innerHTML = partners.map(({ them, theyHelp, iHelp, opposite }) => {
+                const details = [];
+                if (theyHelp.length) details.push(`Deep at ${theyHelp.join('/')} — your need`);
+                if (iHelp.length) details.push(`Needs ${iHelp.join('/')} — your strength`);
+                if (opposite) details.push(`${WINDOW_LABELS[teamWindow(them, false)][0]} vs your ${WINDOW_LABELS[teamWindow(me, true)][0].toLowerCase()} — different timelines`);
+                return `
+                    <div class="partner">
+                        <img src="${avatarUrl(them.avatar)}" alt="">
+                        <div class="p-body">
+                            <div class="p-name">${esc(them.name)}</div>
+                            <div class="p-detail">${details.map(esc).join(' · ')}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function showError(message) {
+            const status = document.getElementById('status');
+            status.innerHTML = `<span class="error">❌ ${esc(message)}</span>`;
+        }
+
+        document.getElementById('windowToggle').addEventListener('click', e => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            windowMode = btn.dataset.mode;
+            document.querySelectorAll('#windowToggle button').forEach(b => b.classList.toggle('active', b === btn));
+            render();
+        });
+
+        load().catch(err => {
+            console.error(err);
+            showError('Could not load this league or the player values. Check the league ID and try again.');
+        });
+    </script>
+</body>
+</html>
