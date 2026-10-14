@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Power Rankings - League Details</title>
     <style>
         body {
@@ -113,152 +115,103 @@
             
             .header {
                 padding: 15px;
-                margin-bottom: 0px;
+                margin-bottom: 10px;
             }
             
             .header h1 {
                 font-size: 20px;
+                margin: 10px 0 0;
             }
             
             .nav-button {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-            
-            .teams-container {
-                max-width: 100%;
-                min-width: auto;
-                margin: 40px auto 20px auto;
-                padding: 5px;
-                gap: 10px;
-            }
-            
-            .team-card {
-                width: 100%;
-                max-width: 500px;
-                height: auto;
-                min-height: 320px;
-                padding: 5px;
-                padding-bottom: 70px;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-            }
-
-            .vs-text {
-                font-size: 20px;
-                margin: 10px;
-            }
-            
-            .team-avatar {
-                width: 80px;
-                height: 80px;
-                margin-bottom: 10px;
-                align-self: center;
-            }
-            
-            .team-name {
-                font-size: 16px;
-                margin-bottom: 8px;
-            }
-            
-            /* Make player lists more compact and vertical */
-            .team-card > div {
-                margin-bottom: 4px;
-                font-size: 20px;
-                line-height: 1.4;
-                text-align: center;
-                padding: 0 5px;
-            }
-            
-            .choose-button {
-                padding: 8px 16px;
-                font-size: 20px;
-                margin: 0px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            
-            .vs-text {
-                font-size: 18px;
-                margin: 0 10px;
-            }
-            
-            #myBar {
-                margin: 5px;
-                margin-bottom: 120px;
-                height: 15px;
-                font-size: 12px;
-                line-height: 15px;
+                padding: 8px 14px;
+                font-size: 14px;
             }
             
             #first-two-teams h2 {
                 font-size: 18px;
-                margin-bottom: 15px;
+                margin: 10px 0;
             }
             
-            /* Final rankings mobile styles */
-            .final-rankings-list {
-                padding: 0 5px;
+            #myBar {
+                margin: 5px 0;
+                height: 12px;
+            }
+            
+            /* Put the two teams side by side so they can be compared without scrolling */
+            .teams-container {
+                flex-direction: row;
+                align-items: stretch;
+                max-width: 100%;
+                min-width: 0;
+                max-height: none;
+                min-height: 0;
+                margin: 12px auto 20px auto;
+                padding: 0;
+                gap: 6px;
+            }
+            
+            .team-card {
+                flex: 1 1 0;
+                min-width: 0;
+                width: auto;
+                min-height: 0;
+                padding: 10px 8px;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .team-avatar {
+                width: 56px;
+                height: 56px;
+                margin: 0 auto 6px;
+            }
+            
+            .team-card .team-name {
+                font-size: 15px !important;
+                overflow-wrap: anywhere;
+                margin-bottom: 4px;
+            }
+            
+            /* Player lists set their size inline, so override it here */
+            .team-card > div {
+                font-size: 13px !important;
+                line-height: 1.35;
+                margin-bottom: 8px !important;
+            }
+            
+            .choose-button {
+                margin-top: auto;
+                width: 100%;
+                padding: 10px 6px;
+                font-size: 14px;
+                overflow-wrap: anywhere;
+            }
+            
+            .vs-text {
+                align-self: center;
+                font-size: 13px;
+                margin: 0;
+            }
+            
+            #final-rankings-list > div {
+                margin: 8px auto !important;
+            }
+            
+            #first-two-teams > .choose-button {
+                width: auto;
+                margin: 20px 4px 0;
+                padding: 10px 16px;
             }
         }
         
         @media screen and (max-width: 480px) {
-            .header {
-                padding: 10px;
-            }
-            
             .header h1 {
                 font-size: 18px;
             }
             
-            .teams-container {
-                gap: 15px;
-                margin: 30px auto 20px auto;
-            }
-            
-            .team-card {
-                max-width: 280px;
-                min-height: 350px;
-                padding: 12px;
-            }
-            
-            .team-avatar {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .team-name {
-                font-size: 15px;
-                margin-bottom: 6px;
-            }
-            
-            .choose-button {
-                padding: 10px 16px;
-                font-size: 13px;
-                margin-top: 10px;
-                width: 100%;
-                max-width: 200px;
-            }
-            
-            .vs-text {
-                font-size: 16px;
-                margin: 10px 0;
-                display: block;
-                text-align: center;
-            }
-            
-            /* Make player info even more compact on small phones */
             .team-card > div {
-                font-size: 10px;
-                margin-bottom: 3px;
-                line-height: 1.3;
-            }
-            
-            #first-two-teams h2 {
-                font-size: 16px;
-                margin-bottom: 10px;
+                font-size: 12px !important;
             }
         }
     </style>
