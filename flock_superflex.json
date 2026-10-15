@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14T03:49:11Z",
+  "updated": "2026-10-15T02:17:56Z",
   "players": [
     {
       "fantasyCalcId": 9821,
@@ -130,19 +130,19 @@
       "tier": 3
     },
     {
-      "fantasyCalcId": 880,
-      "name": "Patrick Mahomes",
-      "position": "QB",
-      "rank": 18,
-      "positionRank": 6,
-      "tier": 3
-    },
-    {
       "fantasyCalcId": 7325,
       "name": "Trey McBride",
       "position": "TE",
-      "rank": 19,
+      "rank": 18,
       "positionRank": 2,
+      "tier": 3
+    },
+    {
+      "fantasyCalcId": 880,
+      "name": "Patrick Mahomes",
+      "position": "QB",
+      "rank": 19,
+      "positionRank": 6,
       "tier": 3
     },
     {
@@ -207,7 +207,7 @@
       "position": "WR",
       "rank": 27,
       "positionRank": 11,
-      "tier": 4
+      "tier": 3
     },
     {
       "fantasyCalcId": 3046,
@@ -274,19 +274,19 @@
       "tier": 4
     },
     {
-      "fantasyCalcId": 9967,
-      "name": "Chase Brown",
-      "position": "RB",
-      "rank": 37,
-      "positionRank": 8,
-      "tier": 5
-    },
-    {
       "fantasyCalcId": 6407,
       "name": "Jalen Hurts",
       "position": "QB",
-      "rank": 38,
+      "rank": 37,
       "positionRank": 12,
+      "tier": 5
+    },
+    {
+      "fantasyCalcId": 9967,
+      "name": "Chase Brown",
+      "position": "RB",
+      "rank": 38,
+      "positionRank": 8,
       "tier": 5
     },
     {
@@ -333,7 +333,7 @@
       "fantasyCalcId": 12592,
       "name": "Tyler Warren",
       "position": "TE",
-      "rank": 46,
+      "rank": 45,
       "positionRank": 4,
       "tier": 5
     },
@@ -386,10 +386,18 @@
       "tier": 6
     },
     {
+      "fantasyCalcId": 7315,
+      "name": "Kyren Williams",
+      "position": "RB",
+      "rank": 53,
+      "positionRank": 12,
+      "tier": 6
+    },
+    {
       "fantasyCalcId": 5531,
       "name": "Tee Higgins",
       "position": "WR",
-      "rank": 53,
+      "rank": 54,
       "positionRank": 22,
       "tier": 6
     },
@@ -397,7 +405,7 @@
       "fantasyCalcId": 11728,
       "name": "Bo Nix",
       "position": "QB",
-      "rank": 54,
+      "rank": 55,
       "positionRank": 17,
       "tier": 6
     },
@@ -410,14 +418,6 @@
       "tier": 6
     },
     {
-      "fantasyCalcId": 11779,
-      "name": "Bucky Irving",
-      "position": "RB",
-      "rank": 57,
-      "positionRank": 13,
-      "tier": 6
-    },
-    {
       "fantasyCalcId": 5494,
       "name": "Christian McCaffrey",
       "position": "RB",
@@ -426,32 +426,32 @@
       "tier": 6
     },
     {
-      "fantasyCalcId": 7315,
-      "name": "Kyren Williams",
+      "fantasyCalcId": 6963,
+      "name": "Javonte Williams",
       "position": "RB",
       "rank": 59,
       "positionRank": 15,
       "tier": 7
     },
     {
+      "fantasyCalcId": 11779,
+      "name": "Bucky Irving",
+      "position": "RB",
+      "rank": 60,
+      "positionRank": 16,
+      "tier": 7
+    },
+    {
       "fantasyCalcId": 9944,
       "name": "Bryce Young",
       "position": "QB",
-      "rank": 60,
+      "rank": 61,
       "positionRank": 18,
       "tier": 7
     },
     {
       "fantasyCalcId": 12632,
       "name": "Quinshon Judkins",
-      "position": "RB",
-      "rank": 61,
-      "positionRank": 16,
-      "tier": 7
-    },
-    {
-      "fantasyCalcId": 6963,
-      "name": "Javonte Williams",
       "position": "RB",
       "rank": 62,
       "positionRank": 17,
@@ -522,10 +522,18 @@
       "tier": 7
     },
     {
+      "fantasyCalcId": 5421,
+      "name": "Derrick Henry",
+      "position": "RB",
+      "rank": 73,
+      "positionRank": 21,
+      "tier": 7
+    },
+    {
       "fantasyCalcId": 11763,
       "name": "Rome Odunze",
       "position": "WR",
-      "rank": 73,
+      "rank": 74,
       "positionRank": 28,
       "tier": 7
     },
@@ -533,16 +541,8 @@
       "fantasyCalcId": 9824,
       "name": "Tucker Kraft",
       "position": "TE",
-      "rank": 74,
-      "positionRank": 7,
-      "tier": 7
-    },
-    {
-      "fantasyCalcId": 5421,
-      "name": "Derrick Henry",
-      "position": "RB",
       "rank": 75,
-      "positionRank": 21,
+      "positionRank": 7,
       "tier": 7
     },
     {
@@ -770,10 +770,18 @@
       "tier": 9
     },
     {
+      "fantasyCalcId": 7402,
+      "name": "Isaiah Likely",
+      "position": "TE",
+      "rank": 107,
+      "positionRank": 11,
+      "tier": 9
+    },
+    {
       "fantasyCalcId": 12601,
       "name": "RJ Harvey",
       "position": "RB",
-      "rank": 107,
+      "rank": 108,
       "positionRank": 28,
       "tier": 9
     },
@@ -781,16 +789,8 @@
       "fantasyCalcId": 7495,
       "name": "Mike Evans",
       "position": "WR",
-      "rank": 109,
+      "rank": 110,
       "positionRank": 44,
-      "tier": 9
-    },
-    {
-      "fantasyCalcId": 7402,
-      "name": "Isaiah Likely",
-      "position": "TE",
-      "rank": 111,
-      "positionRank": 11,
       "tier": 9
     },
     {
@@ -922,19 +922,19 @@
       "tier": 11
     },
     {
-      "fantasyCalcId": 6785,
-      "name": "Jake Ferguson",
-      "position": "TE",
-      "rank": 129,
-      "positionRank": 13,
-      "tier": 11
-    },
-    {
       "fantasyCalcId": 2463,
       "name": "Jakobi Meyers",
       "position": "WR",
-      "rank": 130,
+      "rank": 129,
       "positionRank": 53,
+      "tier": 11
+    },
+    {
+      "fantasyCalcId": 6785,
+      "name": "Jake Ferguson",
+      "position": "TE",
+      "rank": 130,
+      "positionRank": 13,
       "tier": 11
     },
     {
