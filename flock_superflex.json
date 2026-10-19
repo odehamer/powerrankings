@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18T02:03:05Z",
+  "updated": "2026-10-19T02:19:55Z",
   "players": [
     {
       "fantasyCalcId": 9821,
@@ -269,7 +269,7 @@
       "fantasyCalcId": 6637,
       "name": "Dak Prescott",
       "position": "QB",
-      "rank": 36,
+      "rank": 35,
       "positionRank": 11,
       "tier": 4
     },
@@ -298,18 +298,10 @@
       "tier": 5
     },
     {
-      "fantasyCalcId": 8448,
-      "name": "Justin Herbert",
-      "position": "QB",
-      "rank": 41,
-      "positionRank": 14,
-      "tier": 5
-    },
-    {
       "fantasyCalcId": 4576,
       "name": "Breece Hall",
       "position": "RB",
-      "rank": 42,
+      "rank": 41,
       "positionRank": 10,
       "tier": 5
     },
@@ -317,7 +309,7 @@
       "fantasyCalcId": 12590,
       "name": "Luther Burden",
       "position": "WR",
-      "rank": 43,
+      "rank": 42,
       "positionRank": 16,
       "tier": 5
     },
@@ -325,8 +317,16 @@
       "fantasyCalcId": 12592,
       "name": "Tyler Warren",
       "position": "TE",
-      "rank": 44,
+      "rank": 43,
       "positionRank": 4,
+      "tier": 5
+    },
+    {
+      "fantasyCalcId": 8448,
+      "name": "Justin Herbert",
+      "position": "QB",
+      "rank": 44,
+      "positionRank": 14,
       "tier": 5
     },
     {
@@ -370,10 +370,18 @@
       "tier": 6
     },
     {
+      "fantasyCalcId": 9944,
+      "name": "Bryce Young",
+      "position": "QB",
+      "rank": 51,
+      "positionRank": 17,
+      "tier": 6
+    },
+    {
       "fantasyCalcId": 12595,
       "name": "Emeka Egbuka",
       "position": "WR",
-      "rank": 51,
+      "rank": 52,
       "positionRank": 20,
       "tier": 6
     },
@@ -381,7 +389,7 @@
       "fantasyCalcId": 12573,
       "name": "Omarion Hampton",
       "position": "RB",
-      "rank": 52,
+      "rank": 53,
       "positionRank": 12,
       "tier": 6
     },
@@ -389,7 +397,7 @@
       "fantasyCalcId": 9929,
       "name": "Rashee Rice",
       "position": "WR",
-      "rank": 53,
+      "rank": 54,
       "positionRank": 21,
       "tier": 6
     },
@@ -397,16 +405,8 @@
       "fantasyCalcId": 5494,
       "name": "Christian McCaffrey",
       "position": "RB",
-      "rank": 54,
-      "positionRank": 13,
-      "tier": 6
-    },
-    {
-      "fantasyCalcId": 9944,
-      "name": "Bryce Young",
-      "position": "QB",
       "rank": 55,
-      "positionRank": 17,
+      "positionRank": 13,
       "tier": 6
     },
     {
