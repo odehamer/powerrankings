@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T02:19:55Z",
+  "updated": "2026-10-20T02:33:28Z",
   "players": [
     {
       "fantasyCalcId": 9821,
@@ -290,11 +290,11 @@
       "tier": 5
     },
     {
-      "fantasyCalcId": 6407,
-      "name": "Jalen Hurts",
-      "position": "QB",
+      "fantasyCalcId": 12590,
+      "name": "Luther Burden",
+      "position": "WR",
       "rank": 40,
-      "positionRank": 13,
+      "positionRank": 16,
       "tier": 5
     },
     {
@@ -306,18 +306,10 @@
       "tier": 5
     },
     {
-      "fantasyCalcId": 12590,
-      "name": "Luther Burden",
-      "position": "WR",
-      "rank": 42,
-      "positionRank": 16,
-      "tier": 5
-    },
-    {
       "fantasyCalcId": 12592,
       "name": "Tyler Warren",
       "position": "TE",
-      "rank": 43,
+      "rank": 42,
       "positionRank": 4,
       "tier": 5
     },
@@ -325,15 +317,15 @@
       "fantasyCalcId": 8448,
       "name": "Justin Herbert",
       "position": "QB",
-      "rank": 44,
-      "positionRank": 14,
+      "rank": 43,
+      "positionRank": 13,
       "tier": 5
     },
     {
       "fantasyCalcId": 9894,
       "name": "Parker Washington",
       "position": "WR",
-      "rank": 46,
+      "rank": 45,
       "positionRank": 18,
       "tier": 5
     },
@@ -341,21 +333,29 @@
       "fantasyCalcId": 7315,
       "name": "Kyren Williams",
       "position": "RB",
-      "rank": 47,
+      "rank": 46,
       "positionRank": 11,
-      "tier": 6
+      "tier": 5
     },
     {
       "fantasyCalcId": 11766,
       "name": "Ladd McConkey",
       "position": "WR",
-      "rank": 48,
+      "rank": 47,
       "positionRank": 19,
       "tier": 6
     },
     {
       "fantasyCalcId": 12609,
       "name": "Jaxson Dart",
+      "position": "QB",
+      "rank": 48,
+      "positionRank": 14,
+      "tier": 6
+    },
+    {
+      "fantasyCalcId": 6407,
+      "name": "Jalen Hurts",
       "position": "QB",
       "rank": 49,
       "positionRank": 15,
@@ -458,10 +458,18 @@
       "tier": 7
     },
     {
+      "fantasyCalcId": 3651,
+      "name": "Jordan Love",
+      "position": "QB",
+      "rank": 63,
+      "positionRank": 19,
+      "tier": 7
+    },
+    {
       "fantasyCalcId": 12632,
       "name": "Quinshon Judkins",
       "position": "RB",
-      "rank": 63,
+      "rank": 64,
       "positionRank": 17,
       "tier": 7
     },
@@ -469,16 +477,8 @@
       "fantasyCalcId": 12620,
       "name": "Bhayshul Tuten",
       "position": "RB",
-      "rank": 64,
-      "positionRank": 18,
-      "tier": 7
-    },
-    {
-      "fantasyCalcId": 3651,
-      "name": "Jordan Love",
-      "position": "QB",
       "rank": 65,
-      "positionRank": 19,
+      "positionRank": 18,
       "tier": 7
     },
     {
@@ -522,11 +522,11 @@
       "tier": 7
     },
     {
-      "fantasyCalcId": 12580,
-      "name": "TreVeyon Henderson",
-      "position": "RB",
+      "fantasyCalcId": 9838,
+      "name": "C.J. Stroud",
+      "position": "QB",
       "rank": 73,
-      "positionRank": 21,
+      "positionRank": 20,
       "tier": 7
     },
     {
@@ -538,10 +538,18 @@
       "tier": 7
     },
     {
+      "fantasyCalcId": 12580,
+      "name": "TreVeyon Henderson",
+      "position": "RB",
+      "rank": 75,
+      "positionRank": 21,
+      "tier": 7
+    },
+    {
       "fantasyCalcId": 11763,
       "name": "Rome Odunze",
       "position": "WR",
-      "rank": 75,
+      "rank": 76,
       "positionRank": 28,
       "tier": 7
     },
@@ -549,24 +557,16 @@
       "fantasyCalcId": 2737,
       "name": "Baker Mayfield",
       "position": "QB",
-      "rank": 76,
-      "positionRank": 20,
+      "rank": 77,
+      "positionRank": 21,
       "tier": 7
     },
     {
       "fantasyCalcId": 1100,
       "name": "Jameson Williams",
       "position": "WR",
-      "rank": 77,
-      "positionRank": 29,
-      "tier": 7
-    },
-    {
-      "fantasyCalcId": 9838,
-      "name": "C.J. Stroud",
-      "position": "QB",
       "rank": 78,
-      "positionRank": 21,
+      "positionRank": 29,
       "tier": 7
     },
     {
@@ -621,7 +621,7 @@
       "fantasyCalcId": 8007,
       "name": "Sam Darnold",
       "position": "QB",
-      "rank": 87,
+      "rank": 86,
       "positionRank": 22,
       "tier": 8
     },
