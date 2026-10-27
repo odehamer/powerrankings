@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-26T02:14:28Z",
+  "updated": "2026-10-27T02:50:50Z",
   "players": [
     {
       "fantasyCalcId": 9821,
@@ -119,7 +119,7 @@
       "position": "QB",
       "rank": 16,
       "positionRank": 5,
-      "tier": 3
+      "tier": 2
     },
     {
       "fantasyCalcId": 1749,
@@ -207,7 +207,7 @@
       "position": "RB",
       "rank": 27,
       "positionRank": 6,
-      "tier": 4
+      "tier": 3
     },
     {
       "fantasyCalcId": 12635,
@@ -279,7 +279,7 @@
       "position": "RB",
       "rank": 37,
       "positionRank": 8,
-      "tier": 5
+      "tier": 4
     },
     {
       "fantasyCalcId": 12590,
@@ -351,7 +351,7 @@
       "position": "WR",
       "rank": 47,
       "positionRank": 19,
-      "tier": 6
+      "tier": 5
     },
     {
       "fantasyCalcId": 8587,
@@ -447,7 +447,7 @@
       "position": "WR",
       "rank": 60,
       "positionRank": 23,
-      "tier": 7
+      "tier": 6
     },
     {
       "fantasyCalcId": 9929,
@@ -455,7 +455,7 @@
       "position": "WR",
       "rank": 61,
       "positionRank": 24,
-      "tier": 7
+      "tier": 6
     },
     {
       "fantasyCalcId": 11728,
@@ -463,7 +463,7 @@
       "position": "QB",
       "rank": 62,
       "positionRank": 18,
-      "tier": 7
+      "tier": 6
     },
     {
       "fantasyCalcId": 6635,
@@ -615,7 +615,7 @@
       "position": "RB",
       "rank": 85,
       "positionRank": 23,
-      "tier": 8
+      "tier": 7
     },
     {
       "fantasyCalcId": 3544,
@@ -623,7 +623,7 @@
       "position": "QB",
       "rank": 86,
       "positionRank": 22,
-      "tier": 8
+      "tier": 7
     },
     {
       "fantasyCalcId": 8007,
@@ -631,7 +631,7 @@
       "position": "QB",
       "rank": 88,
       "positionRank": 23,
-      "tier": 8
+      "tier": 7
     },
     {
       "fantasyCalcId": 9819,
@@ -639,7 +639,7 @@
       "position": "TE",
       "rank": 89,
       "positionRank": 9,
-      "tier": 8
+      "tier": 7
     },
     {
       "fantasyCalcId": 7257,
@@ -695,7 +695,7 @@
       "position": "QB",
       "rank": 98,
       "positionRank": 26,
-      "tier": 9
+      "tier": 8
     },
     {
       "fantasyCalcId": 9847,
@@ -703,23 +703,15 @@
       "position": "WR",
       "rank": 99,
       "positionRank": 38,
-      "tier": 9
+      "tier": 8
     },
     {
       "fantasyCalcId": 11726,
       "name": "Brian Thomas",
       "position": "WR",
-      "rank": 100,
-      "positionRank": 39,
-      "tier": 9
-    },
-    {
-      "fantasyCalcId": 3156,
-      "name": "Travis Etienne",
-      "position": "RB",
       "rank": 101,
-      "positionRank": 26,
-      "tier": 9
+      "positionRank": 39,
+      "tier": 8
     },
     {
       "fantasyCalcId": 5709,
@@ -727,13 +719,21 @@
       "position": "TE",
       "rank": 102,
       "positionRank": 11,
+      "tier": 8
+    },
+    {
+      "fantasyCalcId": 3156,
+      "name": "Travis Etienne",
+      "position": "RB",
+      "rank": 103,
+      "positionRank": 27,
       "tier": 9
     },
     {
       "fantasyCalcId": 11734,
       "name": "Marvin Harrison",
       "position": "WR",
-      "rank": 103,
+      "rank": 104,
       "positionRank": 40,
       "tier": 9
     },
@@ -762,18 +762,10 @@
       "tier": 9
     },
     {
-      "fantasyCalcId": 12601,
-      "name": "RJ Harvey",
-      "position": "RB",
-      "rank": 108,
-      "positionRank": 29,
-      "tier": 9
-    },
-    {
       "fantasyCalcId": 7495,
       "name": "Mike Evans",
       "position": "WR",
-      "rank": 109,
+      "rank": 108,
       "positionRank": 43,
       "tier": 9
     },
@@ -781,7 +773,7 @@
       "fantasyCalcId": 5,
       "name": "Daniel Jones",
       "position": "QB",
-      "rank": 110,
+      "rank": 109,
       "positionRank": 27,
       "tier": 9
     },
@@ -789,8 +781,16 @@
       "fantasyCalcId": 5240,
       "name": "DK Metcalf",
       "position": "WR",
-      "rank": 111,
+      "rank": 110,
       "positionRank": 44,
+      "tier": 9
+    },
+    {
+      "fantasyCalcId": 12601,
+      "name": "RJ Harvey",
+      "position": "RB",
+      "rank": 111,
+      "positionRank": 29,
       "tier": 9
     },
     {
@@ -815,23 +815,23 @@
       "position": "RB",
       "rank": 115,
       "positionRank": 30,
-      "tier": 10
-    },
-    {
-      "fantasyCalcId": 280,
-      "name": "Kyle Pitts",
-      "position": "TE",
-      "rank": 117,
-      "positionRank": 12,
-      "tier": 10
+      "tier": 9
     },
     {
       "fantasyCalcId": 1326,
       "name": "Josh Jacobs",
       "position": "RB",
-      "rank": 118,
+      "rank": 117,
       "positionRank": 31,
-      "tier": 10
+      "tier": 9
+    },
+    {
+      "fantasyCalcId": 280,
+      "name": "Kyle Pitts",
+      "position": "TE",
+      "rank": 118,
+      "positionRank": 12,
+      "tier": 9
     },
     {
       "fantasyCalcId": 4294,
@@ -839,7 +839,7 @@
       "position": "RB",
       "rank": 119,
       "positionRank": 32,
-      "tier": 10
+      "tier": 9
     },
     {
       "fantasyCalcId": 4864,
@@ -887,7 +887,7 @@
       "position": "TE",
       "rank": 125,
       "positionRank": 13,
-      "tier": 11
+      "tier": 10
     },
     {
       "fantasyCalcId": 12617,
@@ -895,7 +895,7 @@
       "position": "WR",
       "rank": 126,
       "positionRank": 52,
-      "tier": 11
+      "tier": 10
     },
     {
       "fantasyCalcId": 6888,
@@ -903,7 +903,7 @@
       "position": "QB",
       "rank": 129,
       "positionRank": 29,
-      "tier": 11
+      "tier": 10
     },
     {
       "fantasyCalcId": 11725,
@@ -911,7 +911,7 @@
       "position": "RB",
       "rank": 130,
       "positionRank": 34,
-      "tier": 11
+      "tier": 10
     },
     {
       "fantasyCalcId": 2463,
@@ -919,7 +919,7 @@
       "position": "WR",
       "rank": 131,
       "positionRank": 55,
-      "tier": 11
+      "tier": 10
     },
     {
       "fantasyCalcId": 818,
@@ -927,7 +927,7 @@
       "position": "WR",
       "rank": 132,
       "positionRank": 56,
-      "tier": 11
+      "tier": 10
     },
     {
       "fantasyCalcId": 3214,
@@ -983,7 +983,7 @@
       "position": "RB",
       "rank": 143,
       "positionRank": 40,
-      "tier": 12
+      "tier": 11
     },
     {
       "fantasyCalcId": 6785,
@@ -991,7 +991,7 @@
       "position": "TE",
       "rank": 144,
       "positionRank": 16,
-      "tier": 12
+      "tier": 11
     },
     {
       "fantasyCalcId": 2419,
@@ -999,7 +999,7 @@
       "position": "WR",
       "rank": 146,
       "positionRank": 61,
-      "tier": 12
+      "tier": 11
     },
     {
       "fantasyCalcId": 407,
@@ -1007,7 +1007,7 @@
       "position": "RB",
       "rank": 147,
       "positionRank": 41,
-      "tier": 12
+      "tier": 11
     },
     {
       "fantasyCalcId": 5149,
@@ -1015,7 +1015,7 @@
       "position": "RB",
       "rank": 148,
       "positionRank": 42,
-      "tier": 12
+      "tier": 11
     },
     {
       "fantasyCalcId": 2495,
@@ -1023,7 +1023,7 @@
       "position": "WR",
       "rank": 149,
       "positionRank": 62,
-      "tier": 12
+      "tier": 11
     },
     {
       "fantasyCalcId": 12599,
@@ -1031,7 +1031,7 @@
       "position": "RB",
       "rank": 150,
       "positionRank": 43,
-      "tier": 12
+      "tier": 11
     },
     {
       "fantasyCalcId": 9948,
@@ -1543,7 +1543,7 @@
       "position": "RB",
       "rank": 229,
       "positionRank": 65,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 7958,
@@ -1551,7 +1551,7 @@
       "position": "WR",
       "rank": 230,
       "positionRank": 93,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 12637,
@@ -1559,7 +1559,7 @@
       "position": "WR",
       "rank": 231,
       "positionRank": 94,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 12626,
@@ -1567,7 +1567,7 @@
       "position": "WR",
       "rank": 232,
       "positionRank": 95,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 11422,
@@ -1575,7 +1575,7 @@
       "position": "RB",
       "rank": 233,
       "positionRank": 66,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 12667,
@@ -1583,7 +1583,7 @@
       "position": "WR",
       "rank": 234,
       "positionRank": 96,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 2021,
@@ -1591,7 +1591,7 @@
       "position": "TE",
       "rank": 235,
       "positionRank": 32,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 9931,
@@ -1599,7 +1599,7 @@
       "position": "TE",
       "rank": 236,
       "positionRank": 33,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 9951,
@@ -1607,7 +1607,7 @@
       "position": "QB",
       "rank": 238,
       "positionRank": 42,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 9950,
@@ -1615,7 +1615,7 @@
       "position": "WR",
       "rank": 239,
       "positionRank": 98,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 11749,
@@ -1623,7 +1623,7 @@
       "position": "TE",
       "rank": 240,
       "positionRank": 34,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 3550,
@@ -1631,7 +1631,7 @@
       "position": "TE",
       "rank": 241,
       "positionRank": 35,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 12642,
@@ -1639,7 +1639,7 @@
       "position": "TE",
       "rank": 242,
       "positionRank": 36,
-      "tier": 13
+      "tier": 12
     },
     {
       "fantasyCalcId": 41,
@@ -1695,7 +1695,7 @@
       "position": "RB",
       "rank": 252,
       "positionRank": 67,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 6915,
@@ -1703,7 +1703,7 @@
       "position": "TE",
       "rank": 253,
       "positionRank": 41,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 11790,
@@ -1711,7 +1711,7 @@
       "position": "RB",
       "rank": 254,
       "positionRank": 68,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 11699,
@@ -1719,7 +1719,7 @@
       "position": "RB",
       "rank": 255,
       "positionRank": 69,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 11718,
@@ -1727,7 +1727,7 @@
       "position": "WR",
       "rank": 257,
       "positionRank": 104,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 1334,
@@ -1735,7 +1735,7 @@
       "position": "WR",
       "rank": 258,
       "positionRank": 105,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 12641,
@@ -1743,7 +1743,7 @@
       "position": "RB",
       "rank": 259,
       "positionRank": 70,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 12657,
@@ -1751,7 +1751,7 @@
       "position": "RB",
       "rank": 262,
       "positionRank": 72,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 7447,
@@ -1759,7 +1759,7 @@
       "position": "RB",
       "rank": 263,
       "positionRank": 73,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 12618,
@@ -1767,7 +1767,7 @@
       "position": "RB",
       "rank": 264,
       "positionRank": 74,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 6731,
@@ -1775,7 +1775,7 @@
       "position": "QB",
       "rank": 265,
       "positionRank": 44,
-      "tier": 14
+      "tier": 13
     },
     {
       "fantasyCalcId": 7191,
@@ -1975,7 +1975,7 @@
       "position": "RB",
       "rank": 294,
       "positionRank": 88,
-      "tier": 15
+      "tier": 14
     },
     {
       "fantasyCalcId": 9940,
@@ -1983,7 +1983,7 @@
       "position": "QB",
       "rank": 299,
       "positionRank": 50,
-      "tier": 15
+      "tier": 14
     },
     {
       "fantasyCalcId": 8112,
@@ -1991,7 +1991,7 @@
       "position": "WR",
       "rank": 300,
       "positionRank": 114,
-      "tier": 15
+      "tier": 14
     },
     {
       "fantasyCalcId": 9856,
@@ -1999,7 +1999,7 @@
       "position": "TE",
       "rank": 301,
       "positionRank": 47,
-      "tier": 15
+      "tier": 14
     },
     {
       "fantasyCalcId": 7818,
@@ -2007,7 +2007,7 @@
       "position": "QB",
       "rank": 305,
       "positionRank": 52,
-      "tier": 15
+      "tier": 14
     },
     {
       "fantasyCalcId": 9955,
@@ -2287,7 +2287,7 @@
       "position": "RB",
       "rank": 346,
       "positionRank": 100,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 8347,
@@ -2295,7 +2295,7 @@
       "position": "RB",
       "rank": 347,
       "positionRank": 101,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 9851,
@@ -2303,7 +2303,7 @@
       "position": "WR",
       "rank": 349,
       "positionRank": 130,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 4681,
@@ -2311,7 +2311,7 @@
       "position": "WR",
       "rank": 350,
       "positionRank": 131,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 13156,
@@ -2319,7 +2319,7 @@
       "position": "RB",
       "rank": 351,
       "positionRank": 103,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 1787,
@@ -2327,7 +2327,7 @@
       "position": "TE",
       "rank": 352,
       "positionRank": 59,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 12671,
@@ -2335,7 +2335,7 @@
       "position": "WR",
       "rank": 353,
       "positionRank": 132,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 9959,
@@ -2343,7 +2343,7 @@
       "position": "WR",
       "rank": 354,
       "positionRank": 133,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 2301,
@@ -2351,7 +2351,7 @@
       "position": "WR",
       "rank": 355,
       "positionRank": 134,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 9901,
@@ -2359,7 +2359,7 @@
       "position": "QB",
       "rank": 356,
       "positionRank": 60,
-      "tier": 16
+      "tier": 15
     },
     {
       "fantasyCalcId": 12655,
@@ -2407,7 +2407,7 @@
       "position": "RB",
       "rank": 362,
       "positionRank": 106,
-      "tier": 17
+      "tier": 16
     },
     {
       "fantasyCalcId": 2214,
@@ -2415,7 +2415,7 @@
       "position": "WR",
       "rank": 364,
       "positionRank": 137,
-      "tier": 17
+      "tier": 16
     },
     {
       "fantasyCalcId": 5455,
@@ -2423,7 +2423,7 @@
       "position": "RB",
       "rank": 367,
       "positionRank": 108,
-      "tier": 17
+      "tier": 16
     },
     {
       "fantasyCalcId": 11170,
@@ -2431,7 +2431,7 @@
       "position": "RB",
       "rank": 368,
       "positionRank": 109,
-      "tier": 17
+      "tier": 16
     },
     {
       "fantasyCalcId": 11721,
@@ -2439,7 +2439,7 @@
       "position": "WR",
       "rank": 369,
       "positionRank": 139,
-      "tier": 17
+      "tier": 16
     },
     {
       "fantasyCalcId": 2308,
@@ -2447,7 +2447,7 @@
       "position": "WR",
       "rank": 370,
       "positionRank": 140,
-      "tier": 17
+      "tier": 16
     },
     {
       "fantasyCalcId": 11772,
@@ -2455,7 +2455,7 @@
       "position": "QB",
       "rank": 371,
       "positionRank": 62,
-      "tier": 17
+      "tier": 16
     },
     {
       "fantasyCalcId": 1332,
@@ -2463,7 +2463,7 @@
       "position": "RB",
       "rank": 372,
       "positionRank": 110,
-      "tier": 17
+      "tier": 16
     },
     {
       "fantasyCalcId": 2019,
@@ -2495,7 +2495,7 @@
       "position": "RB",
       "rank": 378,
       "positionRank": 111,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 11744,
@@ -2503,7 +2503,7 @@
       "position": "WR",
       "rank": 379,
       "positionRank": 143,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 12604,
@@ -2511,7 +2511,7 @@
       "position": "WR",
       "rank": 380,
       "positionRank": 144,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 919,
@@ -2519,7 +2519,7 @@
       "position": "RB",
       "rank": 381,
       "positionRank": 112,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 11782,
@@ -2527,7 +2527,7 @@
       "position": "WR",
       "rank": 382,
       "positionRank": 145,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 3463,
@@ -2535,7 +2535,7 @@
       "position": "RB",
       "rank": 383,
       "positionRank": 113,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 11015,
@@ -2543,7 +2543,7 @@
       "position": "QB",
       "rank": 384,
       "positionRank": 65,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 12648,
@@ -2551,7 +2551,7 @@
       "position": "QB",
       "rank": 385,
       "positionRank": 66,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 2677,
@@ -2559,7 +2559,7 @@
       "position": "TE",
       "rank": 386,
       "positionRank": 62,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 1230,
@@ -2567,7 +2567,7 @@
       "position": "WR",
       "rank": 388,
       "positionRank": 146,
-      "tier": 18
+      "tier": 17
     },
     {
       "fantasyCalcId": 12600,
@@ -2855,7 +2855,7 @@
       "position": "QB",
       "rank": 432,
       "positionRank": 70,
-      "tier": 19
+      "tier": 18
     },
     {
       "fantasyCalcId": 3368,
@@ -2863,7 +2863,7 @@
       "position": "RB",
       "rank": 434,
       "positionRank": 119,
-      "tier": 19
+      "tier": 18
     },
     {
       "fantasyCalcId": 11727,
@@ -2871,7 +2871,7 @@
       "position": "RB",
       "rank": 435,
       "positionRank": 120,
-      "tier": 19
+      "tier": 18
     },
     {
       "fantasyCalcId": 607,
@@ -2879,7 +2879,7 @@
       "position": "RB",
       "rank": 436,
       "positionRank": 121,
-      "tier": 19
+      "tier": 18
     },
     {
       "fantasyCalcId": 448,
@@ -2887,7 +2887,7 @@
       "position": "WR",
       "rank": 437,
       "positionRank": 174,
-      "tier": 19
+      "tier": 18
     }
   ]
 }
