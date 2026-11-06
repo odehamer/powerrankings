@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05T04:09:45Z",
+  "updated": "2026-11-06T04:07:11Z",
   "players": [
     {
       "fantasyCalcId": 9821,
@@ -338,18 +338,10 @@
       "tier": 6
     },
     {
-      "fantasyCalcId": 3101,
-      "name": "Lamar Jackson",
-      "position": "QB",
-      "rank": 46,
-      "positionRank": 6,
-      "tier": 7
-    },
-    {
       "fantasyCalcId": 12595,
       "name": "Emeka Egbuka",
       "position": "WR",
-      "rank": 47,
+      "rank": 46,
       "positionRank": 22,
       "tier": 7
     },
@@ -357,7 +349,7 @@
       "fantasyCalcId": 12573,
       "name": "Omarion Hampton",
       "position": "RB",
-      "rank": 48,
+      "rank": 47,
       "positionRank": 16,
       "tier": 7
     },
@@ -365,7 +357,7 @@
       "fantasyCalcId": 6635,
       "name": "DeVonta Smith",
       "position": "WR",
-      "rank": 49,
+      "rank": 48,
       "positionRank": 23,
       "tier": 7
     },
@@ -373,8 +365,16 @@
       "fantasyCalcId": 12632,
       "name": "Quinshon Judkins",
       "position": "RB",
-      "rank": 50,
+      "rank": 49,
       "positionRank": 17,
+      "tier": 7
+    },
+    {
+      "fantasyCalcId": 3101,
+      "name": "Lamar Jackson",
+      "position": "QB",
+      "rank": 50,
+      "positionRank": 6,
       "tier": 7
     },
     {
@@ -410,43 +410,43 @@
       "tier": 7
     },
     {
-      "fantasyCalcId": 1574,
-      "name": "D'Andre Swift",
-      "position": "RB",
+      "fantasyCalcId": 1086,
+      "name": "Trevor Lawrence",
+      "position": "QB",
       "rank": 58,
-      "positionRank": 20,
+      "positionRank": 8,
       "tier": 7
     },
     {
-      "fantasyCalcId": 9929,
-      "name": "Rashee Rice",
-      "position": "WR",
+      "fantasyCalcId": 1574,
+      "name": "D'Andre Swift",
+      "position": "RB",
       "rank": 59,
-      "positionRank": 27,
-      "tier": 8
-    },
-    {
-      "fantasyCalcId": 1100,
-      "name": "Jameson Williams",
-      "position": "WR",
-      "rank": 60,
-      "positionRank": 28,
+      "positionRank": 20,
       "tier": 8
     },
     {
       "fantasyCalcId": 880,
       "name": "Patrick Mahomes",
       "position": "QB",
-      "rank": 61,
-      "positionRank": 8,
+      "rank": 60,
+      "positionRank": 9,
       "tier": 8
     },
     {
-      "fantasyCalcId": 1086,
-      "name": "Trevor Lawrence",
-      "position": "QB",
+      "fantasyCalcId": 1100,
+      "name": "Jameson Williams",
+      "position": "WR",
+      "rank": 61,
+      "positionRank": 27,
+      "tier": 8
+    },
+    {
+      "fantasyCalcId": 9929,
+      "name": "Rashee Rice",
+      "position": "WR",
       "rank": 62,
-      "positionRank": 9,
+      "positionRank": 28,
       "tier": 8
     },
     {
@@ -562,35 +562,35 @@
       "tier": 9
     },
     {
-      "fantasyCalcId": 12686,
-      "name": "Tyler Shough",
+      "fantasyCalcId": 3651,
+      "name": "Jordan Love",
       "position": "QB",
       "rank": 82,
       "positionRank": 10,
       "tier": 9
     },
     {
-      "fantasyCalcId": 6637,
-      "name": "Dak Prescott",
+      "fantasyCalcId": 12686,
+      "name": "Tyler Shough",
       "position": "QB",
       "rank": 83,
       "positionRank": 11,
       "tier": 9
     },
     {
-      "fantasyCalcId": 8587,
-      "name": "Jared Goff",
+      "fantasyCalcId": 6637,
+      "name": "Dak Prescott",
       "position": "QB",
       "rank": 84,
       "positionRank": 12,
       "tier": 9
     },
     {
-      "fantasyCalcId": 3651,
-      "name": "Jordan Love",
+      "fantasyCalcId": 8587,
+      "name": "Jared Goff",
       "position": "QB",
-      "rank": 86,
-      "positionRank": 14,
+      "rank": 85,
+      "positionRank": 13,
       "tier": 9
     },
     {
@@ -610,19 +610,19 @@
       "tier": 9
     },
     {
-      "fantasyCalcId": 5709,
-      "name": "George Kittle",
-      "position": "TE",
-      "rank": 89,
-      "positionRank": 11,
-      "tier": 9
-    },
-    {
       "fantasyCalcId": 9838,
       "name": "C.J. Stroud",
       "position": "QB",
-      "rank": 90,
+      "rank": 89,
       "positionRank": 17,
+      "tier": 9
+    },
+    {
+      "fantasyCalcId": 5709,
+      "name": "George Kittle",
+      "position": "TE",
+      "rank": 90,
+      "positionRank": 11,
       "tier": 10
     },
     {
@@ -1061,7 +1061,7 @@
       "fantasyCalcId": 12652,
       "name": "Jayden Higgins",
       "position": "WR",
-      "rank": 156,
+      "rank": 155,
       "positionRank": 63,
       "tier": 11
     },
@@ -1106,19 +1106,19 @@
       "tier": 11
     },
     {
-      "fantasyCalcId": 9863,
-      "name": "Jayden Reed",
-      "position": "WR",
-      "rank": 162,
-      "positionRank": 65,
-      "tier": 11
-    },
-    {
       "fantasyCalcId": 5,
       "name": "Daniel Jones",
       "position": "QB",
-      "rank": 163,
+      "rank": 162,
       "positionRank": 28,
+      "tier": 11
+    },
+    {
+      "fantasyCalcId": 9863,
+      "name": "Jayden Reed",
+      "position": "WR",
+      "rank": 163,
+      "positionRank": 65,
       "tier": 11
     },
     {
@@ -1338,18 +1338,10 @@
       "tier": 12
     },
     {
-      "fantasyCalcId": 3568,
-      "name": "Deshaun Watson",
-      "position": "QB",
-      "rank": 199,
-      "positionRank": 31,
-      "tier": 12
-    },
-    {
       "fantasyCalcId": 9939,
       "name": "Kayshon Boutte",
       "position": "WR",
-      "rank": 200,
+      "rank": 199,
       "positionRank": 84,
       "tier": 12
     },
@@ -1357,7 +1349,7 @@
       "fantasyCalcId": 9982,
       "name": "Keaton Mitchell",
       "position": "RB",
-      "rank": 201,
+      "rank": 200,
       "positionRank": 59,
       "tier": 12
     },
@@ -1365,8 +1357,16 @@
       "fantasyCalcId": 675,
       "name": "Hunter Henry",
       "position": "TE",
-      "rank": 202,
+      "rank": 201,
       "positionRank": 28,
+      "tier": 12
+    },
+    {
+      "fantasyCalcId": 3568,
+      "name": "Deshaun Watson",
+      "position": "QB",
+      "rank": 202,
+      "positionRank": 31,
       "tier": 12
     },
     {
@@ -1506,26 +1506,34 @@
       "tier": 14
     },
     {
+      "fantasyCalcId": 3577,
+      "name": "Drew Lock",
+      "position": "QB",
+      "rank": 224,
+      "positionRank": 36,
+      "tier": 14
+    },
+    {
       "fantasyCalcId": 11422,
       "name": "Emanuel Wilson",
       "position": "RB",
-      "rank": 224,
+      "rank": 225,
       "positionRank": 64,
       "tier": 14
     },
     {
-      "fantasyCalcId": 3577,
-      "name": "Drew Lock",
+      "fantasyCalcId": 536,
+      "name": "Kirk Cousins",
       "position": "QB",
-      "rank": 225,
-      "positionRank": 36,
+      "rank": 226,
+      "positionRank": 37,
       "tier": 14
     },
     {
       "fantasyCalcId": 11781,
       "name": "Jaylen Wright",
       "position": "RB",
-      "rank": 226,
+      "rank": 227,
       "positionRank": 65,
       "tier": 14
     },
@@ -1533,16 +1541,8 @@
       "fantasyCalcId": 12642,
       "name": "Mason Taylor",
       "position": "TE",
-      "rank": 227,
-      "positionRank": 32,
-      "tier": 14
-    },
-    {
-      "fantasyCalcId": 536,
-      "name": "Kirk Cousins",
-      "position": "QB",
       "rank": 228,
-      "positionRank": 37,
+      "positionRank": 32,
       "tier": 14
     },
     {
