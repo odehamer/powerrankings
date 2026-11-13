@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T04:50:46Z",
+  "updated": "2026-11-13T04:01:02Z",
   "players": [
     {
       "fantasyCalcId": 9821,
@@ -122,19 +122,19 @@
       "tier": 3
     },
     {
-      "fantasyCalcId": 7569,
-      "name": "Justin Jefferson",
-      "position": "WR",
-      "rank": 17,
-      "positionRank": 7,
-      "tier": 3
-    },
-    {
       "fantasyCalcId": 11701,
       "name": "Jayden Daniels",
       "position": "QB",
-      "rank": 18,
+      "rank": 17,
       "positionRank": 5,
+      "tier": 3
+    },
+    {
+      "fantasyCalcId": 7569,
+      "name": "Justin Jefferson",
+      "position": "WR",
+      "rank": 18,
+      "positionRank": 7,
       "tier": 3
     },
     {
@@ -178,17 +178,17 @@
       "tier": 3
     },
     {
-      "fantasyCalcId": 880,
-      "name": "Patrick Mahomes",
-      "position": "QB",
+      "fantasyCalcId": 9930,
+      "name": "Zay Flowers",
+      "position": "WR",
       "rank": 24,
       "positionRank": 9,
       "tier": 3
     },
     {
-      "fantasyCalcId": 9930,
-      "name": "Zay Flowers",
-      "position": "WR",
+      "fantasyCalcId": 880,
+      "name": "Patrick Mahomes",
+      "position": "QB",
       "rank": 25,
       "positionRank": 9,
       "tier": 3
@@ -199,7 +199,7 @@
       "position": "WR",
       "rank": 26,
       "positionRank": 10,
-      "tier": 3
+      "tier": 4
     },
     {
       "fantasyCalcId": 182,
@@ -258,35 +258,35 @@
       "tier": 4
     },
     {
-      "fantasyCalcId": 5030,
-      "name": "Nico Collins",
+      "fantasyCalcId": 1436,
+      "name": "George Pickens",
       "position": "WR",
       "rank": 34,
       "positionRank": 15,
       "tier": 4
     },
     {
-      "fantasyCalcId": 1436,
-      "name": "George Pickens",
+      "fantasyCalcId": 5030,
+      "name": "Nico Collins",
       "position": "WR",
       "rank": 35,
       "positionRank": 16,
       "tier": 4
     },
     {
-      "fantasyCalcId": 3651,
-      "name": "Jordan Love",
-      "position": "QB",
-      "rank": 36,
-      "positionRank": 10,
-      "tier": 5
-    },
-    {
       "fantasyCalcId": 5981,
       "name": "Christian Watson",
       "position": "WR",
-      "rank": 37,
+      "rank": 36,
       "positionRank": 17,
+      "tier": 5
+    },
+    {
+      "fantasyCalcId": 3651,
+      "name": "Jordan Love",
+      "position": "QB",
+      "rank": 37,
+      "positionRank": 10,
       "tier": 5
     },
     {

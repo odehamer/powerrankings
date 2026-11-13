@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T04:50:46Z",
+  "updated": "2026-11-13T04:01:03Z",
   "players": [
     {
       "fantasyCalcId": 9821,
@@ -98,32 +98,32 @@
       "tier": 2
     },
     {
-      "fantasyCalcId": 998,
-      "name": "Drake London",
-      "position": "WR",
-      "rank": 14,
-      "positionRank": 8,
-      "tier": 2
-    },
-    {
       "fantasyCalcId": 7325,
       "name": "Trey McBride",
       "position": "TE",
-      "rank": 15,
+      "rank": 14,
       "positionRank": 2,
+      "tier": 2
+    },
+    {
+      "fantasyCalcId": 998,
+      "name": "Drake London",
+      "position": "WR",
+      "rank": 15,
+      "positionRank": 8,
       "tier": 3
     },
     {
-      "fantasyCalcId": 2548,
-      "name": "Chris Olave",
+      "fantasyCalcId": 9930,
+      "name": "Zay Flowers",
       "position": "WR",
       "rank": 16,
       "positionRank": 9,
       "tier": 3
     },
     {
-      "fantasyCalcId": 9930,
-      "name": "Zay Flowers",
+      "fantasyCalcId": 2548,
+      "name": "Chris Olave",
       "position": "WR",
       "rank": 17,
       "positionRank": 10,
@@ -186,19 +186,19 @@
       "tier": 4
     },
     {
-      "fantasyCalcId": 6813,
-      "name": "Garrett Wilson",
-      "position": "WR",
-      "rank": 25,
-      "positionRank": 14,
-      "tier": 4
-    },
-    {
       "fantasyCalcId": 11708,
       "name": "Caleb Williams",
       "position": "QB",
-      "rank": 26,
+      "rank": 25,
       "positionRank": 2,
+      "tier": 4
+    },
+    {
+      "fantasyCalcId": 6813,
+      "name": "Garrett Wilson",
+      "position": "WR",
+      "rank": 26,
+      "positionRank": 14,
       "tier": 4
     },
     {
